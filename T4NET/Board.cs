@@ -6,28 +6,29 @@ namespace T4NET
     public class Board
     {
         private static readonly List<Point> ALTERNATIVE_POSITIONS = new List<Point>
-                                           {
-                                               new Point(-1, 0),
-                                               new Point(1, 0),
-                                               new Point(-2, 0),
-                                               new Point(2, 0),
-                                               new Point(0, -1),
-                                               new Point(-1, -1),
-                                               new Point(1, -1)
-                                           };
+                                                                        {
+                                                                            new Point(-1, 0),
+                                                                            new Point(1, 0),
+                                                                            new Point(-2, 0),
+                                                                            new Point(2, 0),
+                                                                            new Point(0, -1),
+                                                                            new Point(-1, -1),
+                                                                            new Point(1, -1)
+                                                                        };
 
         private readonly int[][] m_board;
         private readonly int m_hSize;
         private readonly int m_vSize;
+        private Piece m_currentPiece;
 
         public Board(int hSize, int vSize)
         {
             m_hSize = hSize;
-            m_vSize = vSize;
+            m_vSize = vSize + 1;
             m_board = new int[hSize][];
-            for (int i = 0; i < hSize; i++)
+            for (int i = 0; i < m_hSize; i++)
             {
-                m_board[i] = new int[vSize];
+                m_board[i] = new int[m_vSize];
             }
         }
 
@@ -46,77 +47,93 @@ namespace T4NET
             get { return m_board; }
         }
 
-        public bool CanMoveDown(Piece p)
+        public Piece CurrentPiece
         {
-            p.Y = p.Y + 1;
-            bool result = ValidPosition(p);
-            p.Y = p.Y - 1;
+            get { return m_currentPiece; }
+            set { m_currentPiece = value; }
+        }
+
+        public bool CanMoveDown()
+        {
+            m_currentPiece.Shift(0, 1);
+            bool result = ValidPosition();
+            m_currentPiece.Shift(0, -1);
             return result;
         }
 
-        public bool CanMoveLeft(Piece p)
+        public bool CanMoveLeft()
         {
-            p.X = p.X - 1;
-            bool result = ValidPosition(p);
-            p.X = p.X + 1;
+            m_currentPiece.Shift(-1, 0);
+            bool result = ValidPosition();
+            m_currentPiece.Shift(1, 0);
             return result;
         }
 
-        public bool CanMoveRight(Piece p)
+        public bool CanMoveRight()
         {
-            p.X = p.X + 1;
-            bool result = ValidPosition(p);
-            p.X = p.X - 1;
+            m_currentPiece.Shift(1, 0);
+            bool result = ValidPosition();
+            m_currentPiece.Shift(-1, 0);
             return result;
         }
 
-        public void RotateRight(Piece p)
+        public void RotateRight()
         {
-            p.RotateR();
-            if (ValidPosition(p)) return;
-            int x = p.X;
-            int y = p.Y;
-            foreach (var alt in ALTERNATIVE_POSITIONS)
+            m_currentPiece.RotateR();
+            if (ValidPosition()) return;
+            int x = m_currentPiece.X;
+            int y = m_currentPiece.Y;
+            foreach (Point alt in ALTERNATIVE_POSITIONS)
             {
-                p.X = x + alt.X;
-                p.Y = y + alt.Y;
-                if (ValidPosition(p))
+                m_currentPiece.X = x + alt.X;
+                m_currentPiece.Y = y + alt.Y;
+                if (ValidPosition())
                 {
                     return;
                 }
             }
-            p.RotateL();
-            p.X = x;
-            p.Y = y;
+            m_currentPiece.RotateL();
+            m_currentPiece.X = x;
+            m_currentPiece.Y = y;
         }
 
-        public void RotateLeft(Piece p)
+        public void RotateLeft()
         {
-            p.RotateL();
-            if (ValidPosition(p)) return;
-            int x = p.X;
-            int y = p.Y;
-            foreach (var alt in ALTERNATIVE_POSITIONS)
+            m_currentPiece.RotateL();
+            if (ValidPosition()) return;
+            int x = m_currentPiece.X;
+            int y = m_currentPiece.Y;
+            foreach (Point alt in ALTERNATIVE_POSITIONS)
             {
-                p.X = x + alt.X;
-                p.Y = y + alt.Y;
-                if (ValidPosition(p))
+                m_currentPiece.X = x + alt.X;
+                m_currentPiece.Y = y + alt.Y;
+                if (ValidPosition())
                 {
                     return;
                 }
             }
-            p.RotateR();
-            p.X = x;
-            p.Y = y;
-
+            m_currentPiece.RotateR();
+            m_currentPiece.X = x;
+            m_currentPiece.Y = y;
         }
 
-        public bool ValidPosition(Piece p)
+        public int InstantDrop()
         {
-            foreach (var block in p.CurrentBlocks)
+            int initialPosition = m_currentPiece.Y;
+            while (ValidPosition())
             {
-                int x = p.X + block.X;
-                int y = p.Y + block.Y;
+                m_currentPiece.Shift(0, 1);
+            }
+            m_currentPiece.Shift(0, -1);
+            return m_currentPiece.Y - initialPosition;
+        }
+
+        public bool ValidPosition()
+        {
+            foreach (Point block in m_currentPiece.CurrentBlocks)
+            {
+                int x = m_currentPiece.X + block.X;
+                int y = m_currentPiece.Y + block.Y;
                 if (x < 0 || x >= m_hSize || y < 0 || y >= m_vSize || m_board[x][y] != 0)
                 {
                     return false;
@@ -125,17 +142,17 @@ namespace T4NET
             return true;
         }
 
-        public void Incorporate(Piece p)
+        public void Incorporate()
         {
-            foreach (var block in p.CurrentBlocks)
+            foreach (Point block in m_currentPiece.CurrentBlocks)
             {
-                m_board[p.X + block.X][p.Y + block.Y] = 1;
+                m_board[m_currentPiece.X + block.X][m_currentPiece.Y + block.Y] = m_currentPiece.Color;
             }
-            CheckLines();
         }
 
-        public void CheckLines()
+        public bool CheckLines()
         {
+            bool lineFound = false;
             for (int j = m_vSize - 1; j >= 0; j--)
             {
                 bool complete = true;
@@ -149,6 +166,7 @@ namespace T4NET
                 }
                 if (complete)
                 {
+                    lineFound = true;
                     // Collapse
                     if (j > 0)
                     {
@@ -167,6 +185,7 @@ namespace T4NET
                     j++; // rechecks same line
                 }
             }
+            return lineFound;
         }
     }
 }

@@ -14,41 +14,51 @@
   </NAntValidationSettings>
   <RecentFiles>
     <RecentFiles>
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="4660" scrollPosition="0|184" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="2022" scrollPosition="0|51" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="580" scrollPosition="0|189" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="0" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="4063" scrollPosition="0|101" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Properties/f:AssemblyInfo.cs" caret="0" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:ControlsConfig.cs" caret="566" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Network/f:MessageDecoder.cs" caret="315" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Network/f:Protocol.cs" caret="194" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:ContolsState.cs" caret="837" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:BoardControl.cs" caret="673" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:BoardDisplay.cs" caret="904" scrollPosition="0|21" />
+      <File id="9ED24B61-274E-4F7F-86CA-738C5D6C98C1/f:SystemFont.spritefont" caret="682" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="7206" scrollPosition="0|135" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="3020" scrollPosition="0|48" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Console.cs" caret="596" scrollPosition="0|0" />
     </RecentFiles>
     <RecentEdits>
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="10894" scrollPosition="0|183" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="226" scrollPosition="0|9" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="11876" scrollPosition="0|247" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="11991" scrollPosition="0|247" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="11534" scrollPosition="0|220" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="4834" scrollPosition="0|103" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="4834" scrollPosition="0|88" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="4834" scrollPosition="0|88" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="11543" scrollPosition="0|248" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="11543" scrollPosition="0|248" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="8101" scrollPosition="0|183" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="3293" scrollPosition="0|71" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="768" scrollPosition="0|0" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="186" scrollPosition="0|0" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="2119" scrollPosition="0|60" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="2616" scrollPosition="0|75" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="2961" scrollPosition="0|78" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="7614" scrollPosition="0|162" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="3810" scrollPosition="0|120" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="4586" scrollPosition="0|131" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="11072" scrollPosition="0|243" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="4299" scrollPosition="0|128" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="4779" scrollPosition="0|131" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="5234" scrollPosition="0|103" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Board.cs" caret="2445" scrollPosition="0|60" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="6859" scrollPosition="0|126" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="7669" scrollPosition="0|126" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="9296" scrollPosition="0|156" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="8568" scrollPosition="0|156" />
-      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Piece.cs" caret="8127" scrollPosition="0|147" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="5417" scrollPosition="0|82" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="1746" scrollPosition="0|6" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="1746" scrollPosition="0|6" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="2808" scrollPosition="0|33" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="1025" scrollPosition="0|15" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="5659" scrollPosition="0|108" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="7898" scrollPosition="0|141" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="1746" scrollPosition="0|12" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="1722" scrollPosition="0|9" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="2609" scrollPosition="0|29" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="1695" scrollPosition="0|11" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="1212" scrollPosition="0|7" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="6448" scrollPosition="0|112" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="269" scrollPosition="0|3" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="1357" scrollPosition="0|12" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="2513" scrollPosition="0|45" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="1251" scrollPosition="0|24" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="1527" scrollPosition="0|27" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="2838" scrollPosition="0|47" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="3213" scrollPosition="0|47" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="617" scrollPosition="0|8" />
+      <File id="9ED24B61-274E-4F7F-86CA-738C5D6C98C1/f:SystemFont.spritefont" caret="682" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="954" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="5087" scrollPosition="0|86" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="6780" scrollPosition="0|135" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Console.cs" caret="398" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:T4Net.cs" caret="7206" scrollPosition="0|135" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/d:Graphic/f:ConsoleDisplay.cs" caret="3020" scrollPosition="0|48" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Console.cs" caret="840" scrollPosition="0|0" />
+      <File id="43514764-1F16-40F9-9FC0-E6CCE1B139CB/f:Console.cs" caret="368" scrollPosition="0|0" />
     </RecentEdits>
   </RecentFiles>
   <UnitTestRunner>
@@ -62,114 +72,114 @@
   <CompletionStatisticsManager>
     <ItemStatistics item="Default">
       <Item value="Keyboard" priority="1" />
-      <Item value="PlayerIndex.One" priority="0" />
+      <Item value="PlayerIndex.One" priority="1" />
       <Item value="Keys.Escape" priority="0" />
-      <Item value="private" priority="18" />
-      <Item value="int" priority="45" />
-      <Item value="new" priority="38" />
-      <Item value="public" priority="8" />
+      <Item value="private" priority="43" />
+      <Item value="int" priority="50" />
+      <Item value="new" priority="64" />
+      <Item value="public" priority="26" />
       <Item value="Board" priority="3" />
       <Item value="m_hSize" priority="5" />
       <Item value="hSize" priority="2" />
       <Item value="m_vSize" priority="3" />
       <Item value="vSize" priority="2" />
-      <Item value="m_board" priority="22" />
-      <Item value="for" priority="13" />
-      <Item value="i" priority="37" />
-      <Item value="readonly" priority="5" />
-      <Item value="enum" priority="0" />
+      <Item value="m_board" priority="24" />
+      <Item value="for" priority="14" />
+      <Item value="i" priority="39" />
+      <Item value="readonly" priority="14" />
+      <Item value="enum" priority="1" />
       <Item value="Piece" priority="8" />
       <Item value="m_matrix" priority="5" />
       <Item value="switch" priority="0" />
-      <Item value="case" priority="1" />
-      <Item value="break" priority="1" />
+      <Item value="case" priority="6" />
+      <Item value="break" priority="5" />
       <Item value="char" priority="0" />
-      <Item value="m_color" priority="1" />
+      <Item value="m_color" priority="5" />
       <Item value="Color" priority="3" />
-      <Item value="static" priority="2" />
+      <Item value="static" priority="7" />
       <Item value="Random" priority="1" />
       <Item value="s_pieceGenerator" priority="0" />
-      <Item value="return" priority="8" />
+      <Item value="return" priority="20" />
       <Item value="rand" priority="0" />
       <Item value="pieceType" priority="0" />
       <Item value="ALL_PIECES" priority="0" />
-      <Item value="graphics" priority="1" />
-      <Item value="GraphicsDevice" priority="14" />
-      <Item value="spriteBatch" priority="3" />
-      <Item value="Texture2D" priority="2" />
-      <Item value="Content" priority="0" />
+      <Item value="graphics" priority="3" />
+      <Item value="GraphicsDevice" priority="19" />
+      <Item value="spriteBatch" priority="8" />
+      <Item value="Texture2D" priority="4" />
+      <Item value="Content" priority="2" />
       <Item value="m_darkBlueBlock" priority="2" />
       <Item value="m_lightBlueBlock" priority="0" />
       <Item value="Rectangle" priority="0" />
       <Item value="PrimitiveType.LineStrip" priority="1" />
       <Item value="VertexPositionColor" priority="6" />
-      <Item value="Vector3" priority="5" />
+      <Item value="Vector3" priority="6" />
       <Item value="grid" priority="4" />
-      <Item value="Color.Black" priority="0" />
-      <Item value="Matrix" priority="4" />
+      <Item value="Color.Black" priority="1" />
+      <Item value="Matrix" priority="5" />
       <Item value="float" priority="4" />
       <Item value="idx" priority="2" />
       <Item value="const" priority="0" />
       <Item value="BLOCK_SIZE" priority="1" />
-      <Item value="if" priority="38" />
+      <Item value="if" priority="59" />
       <Item value="BasicEffect" priority="1" />
-      <Item value="basicEffect" priority="7" />
+      <Item value="basicEffect" priority="9" />
       <Item value="EffectPool" priority="0" />
       <Item value="worldMatrix" priority="1" />
       <Item value="projectionMatrix" priority="0" />
       <Item value="basicEffectVertexDeclaration" priority="2" />
       <Item value="viewMatrix" priority="0" />
-      <Item value="foreach" priority="6" />
+      <Item value="foreach" priority="11" />
       <Item value="pass" priority="1" />
       <Item value="VertexDeclaration" priority="0" />
       <Item value="vertexBuffer" priority="2" />
       <Item value="VertexBuffer" priority="0" />
       <Item value="Length" priority="0" />
       <Item value="BufferUsage.None" priority="0" />
-      <Item value="false" priority="6" />
-      <Item value="gameTime" priority="2" />
-      <Item value="m_currentPiece" priority="22" />
-      <Item value="null" priority="1" />
-      <Item value="Vector2" priority="1" />
+      <Item value="false" priority="9" />
+      <Item value="gameTime" priority="4" />
+      <Item value="m_currentPiece" priority="26" />
+      <Item value="null" priority="3" />
+      <Item value="Vector2" priority="3" />
       <Item value="SpriteEffects.None" priority="0" />
       <Item value="m_greenlock" priority="0" />
       <Item value="m_orangeBlock" priority="0" />
       <Item value="m_redBlock" priority="1" />
       <Item value="m_violetBlock" priority="0" />
       <Item value="m_yellowBlock" priority="0" />
-      <Item value="keyboardState" priority="10" />
+      <Item value="keyboardState" priority="15" />
       <Item value="Keys.Right" priority="0" />
       <Item value="m_lastMove" priority="3" />
-      <Item value="else" priority="7" />
-      <Item value="Keys.Left" priority="0" />
-      <Item value="totalSeconds" priority="2" />
-      <Item value="m_lastAutoDrop" priority="3" />
+      <Item value="else" priority="12" />
+      <Item value="Keys.Left" priority="1" />
+      <Item value="totalSeconds" priority="9" />
+      <Item value="m_lastAutoDrop" priority="6" />
       <Item value="oldMatrix" priority="0" />
       <Item value="Keys.X" priority="3" />
-      <Item value="bool" priority="4" />
+      <Item value="bool" priority="11" />
       <Item value="m_xPressed" priority="2" />
       <Item value="xPressEvent" priority="2" />
-      <Item value="true" priority="6" />
+      <Item value="true" priority="11" />
       <Item value="xReleaseEvent" priority="0" />
       <Item value="p" priority="33" />
       <Item value="bottomBlock" priority="2" />
-      <Item value="void" priority="2" />
-      <Item value="ValidPosition" priority="4" />
+      <Item value="void" priority="12" />
+      <Item value="ValidPosition" priority="5" />
       <Item value="CanMoveLeft" priority="0" />
       <Item value="CanMoveRight" priority="0" />
-      <Item value="result" priority="0" />
+      <Item value="result" priority="1" />
       <Item value="SetDataOptions" priority="0" />
-      <Item value="Keys" priority="1" />
-      <Item value="HashSet" priority="0" />
-      <Item value="HashSet&lt;Keys&gt;" priority="0" />
+      <Item value="Keys" priority="3" />
+      <Item value="HashSet" priority="3" />
+      <Item value="HashSet&lt;Keys&gt;" priority="2" />
       <Item value="m_pushedKeys" priority="4" />
-      <Item value="keysPressed" priority="3" />
-      <Item value="keysReleased" priority="0" />
-      <Item value="key" priority="0" />
+      <Item value="keysPressed" priority="4" />
+      <Item value="keysReleased" priority="1" />
+      <Item value="key" priority="3" />
       <Item value="Keys.Down" priority="0" />
       <Item value="Keys.W" priority="0" />
-      <Item value="RegenPiece" priority="3" />
-      <Item value="List" priority="1" />
+      <Item value="RegenPiece" priority="6" />
+      <Item value="List" priority="2" />
       <Item value="List&lt;Point&gt;" priority="4" />
       <Item value="m_blocks" priority="6" />
       <Item value="Point" priority="12" />
@@ -181,12 +191,129 @@
       <Item value="jj" priority="2" />
       <Item value="j" priority="1" />
       <Item value="Keys.C" priority="0" />
+      <Item value="MediaLibrary" priority="0" />
+      <Item value="source" priority="2" />
+      <Item value="GameTime" priority="0" />
+      <Item value="KeyboardState" priority="1" />
+      <Item value="BoardControl" priority="1" />
+      <Item value="m_boardDisplay" priority="1" />
+      <Item value="m_boardControl" priority="1" />
+      <Item value="double" priority="1" />
+      <Item value="DropSpeed" priority="0" />
+      <Item value="AutoDropTime" priority="0" />
+      <Item value="pressedKeys" priority="0" />
+      <Item value="class" priority="2" />
+      <Item value="List&lt;Keys&gt;" priority="0" />
+      <Item value="this" priority="0" />
+      <Item value="GamePad" priority="0" />
+      <Item value="padState" priority="7" />
+      <Item value="Buttons" priority="8" />
+      <Item value="EnumHelper" priority="1" />
+      <Item value="typeof" priority="1" />
+      <Item value="button" priority="7" />
+      <Item value="m_previouslyPressedButtons" priority="3" />
+      <Item value="var" priority="2" />
+      <Item value="buttonsPressed" priority="2" />
+      <Item value="buttonsReleased" priority="1" />
+      <Item value="GamePadState" priority="1" />
+      <Item value="ControlsConfig" priority="3" />
+      <Item value="m_controlsConfig" priority="4" />
+      <Item value="gamePadState" priority="0" />
+      <Item value="ContolsState" priority="8" />
+      <Item value="m_controlsState" priority="1" />
+      <Item value="m_releasedKeys" priority="0" />
+      <Item value="m_pressedButtons" priority="1" />
+      <Item value="m_releasedButtons" priority="0" />
+      <Item value="m_keyboardState" priority="0" />
+      <Item value="m_padState" priority="0" />
+      <Item value="HashSet&lt;Buttons&gt;" priority="1" />
+      <Item value="List&lt;Buttons&gt;" priority="0" />
+      <Item value="m_keys" priority="2" />
+      <Item value="Controls" priority="3" />
+      <Item value="internal" priority="0" />
+      <Item value="state" priority="8" />
+      <Item value="Dictionary" priority="1" />
+      <Item value="Dictionary&lt;Function,Controls&gt;" priority="0" />
+      <Item value="Function" priority="13" />
+      <Item value="m_controls" priority="4" />
+      <Item value="function" priority="4" />
+      <Item value="protected" priority="0" />
+      <Item value="config" priority="4" />
+      <Item value="Function.REGEN_PIECE" priority="0" />
+      <Item value="Function.RIGHT" priority="3" />
+      <Item value="m_currentFunction" priority="10" />
+      <Item value="m_currentFunctionStart" priority="9" />
+      <Item value="MoveRight" priority="2" />
+      <Item value="m_currentFunctionSubStart" priority="0" />
+      <Item value="timeSinceStart" priority="2" />
+      <Item value="Function.ROTATE_R" priority="0" />
+      <Item value="m_currentFunctionSub" priority="5" />
+      <Item value="Function.LEFT" priority="3" />
+      <Item value="MoveLeft" priority="0" />
+      <Item value="timeSinceSub" priority="0" />
+      <Item value="Function.DOWN" priority="0" />
+      <Item value="Function.NONE" priority="0" />
+      <Item value="MoveDown" priority="0" />
+      <Item value="BoardFunction.KEY_FUNCTION" priority="2" />
+      <Item value="BoardFunction.PIECE_LOCK" priority="0" />
+      <Item value="LockPiece" priority="0" />
+      <Item value="BoardFunction.NONE" priority="2" />
+      <Item value="lineFound" priority="1" />
+      <Item value="BoardFunction.LINE_VANISHING" priority="0" />
+      <Item value="m_totalSeconds" priority="8" />
+      <Item value="while" priority="1" />
+      <Item value="firstPosition" priority="0" />
+      <Item value="NetworkSession" priority="1" />
+      <Item value="NetworkSessionType.Local" priority="0" />
+      <Item value="session" priority="0" />
+      <Item value="m_networkSession" priority="5" />
+      <Item value="Keys.F12" priority="1" />
+      <Item value="Console" priority="7" />
+      <Item value="Components" priority="0" />
+      <Item value="Gamer" priority="1" />
+      <Item value="Guide" priority="2" />
+      <Item value="GamerServicesComponent" priority="0" />
+      <Item value="SignedInGamer" priority="2" />
+      <Item value="NetworkGamer" priority="0" />
+      <Item value="e" priority="0" />
+      <Item value="m_previouslyPressedKeys" priority="0" />
+      <Item value="Func" priority="0" />
+      <Item value="Functions" priority="0" />
+      <Item value="Buttons.A" priority="0" />
+      <Item value="ALL_BUTTONS" priority="1" />
+      <Item value="SpriteBatch" priority="2" />
+      <Item value="m_systemFont" priority="1" />
+      <Item value="t" priority="0" />
+      <Item value="SpriteFont" priority="0" />
+      <Item value="s_systemFont" priority="1" />
+      <Item value="content" priority="0" />
+      <Item value="ConsoleDisplay" priority="1" />
+      <Item value="m_grid" priority="4" />
+      <Item value="Color.Beige" priority="0" />
+      <Item value="m_console" priority="2" />
+      <Item value="m_basicEffect" priority="4" />
+      <Item value="m_device" priority="3" />
+      <Item value="CullMode.None" priority="0" />
+      <Item value="Blend.One" priority="1" />
+      <Item value="BlendFunction.Add" priority="0" />
+      <Item value="device" priority="0" />
+      <Item value="m_gamerServiceInitialized" priority="2" />
+      <Item value="m_spriteBatch" priority="2" />
+      <Item value="Color.Green" priority="0" />
+      <Item value="Height" priority="0" />
+      <Item value="string" priority="2" />
+      <Item value="m_text" priority="0" />
+      <Item value="text" priority="0" />
+      <Item value="LinkedList&lt;string&gt;" priority="0" />
+      <Item value="s_lines" priority="3" />
+      <Item value="lines" priority="0" />
+      <Item value="node" priority="2" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Input.Keyboard">
       <Item value="GetState" priority="1" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Input.KeyboardState">
-      <Item value="IsKeyDown" priority="6" />
+      <Item value="IsKeyDown" priority="9" />
       <Item value="IsKeyUp" priority="1" />
       <Item value="GetPressedKeys" priority="2" />
     </ItemStatistics>
@@ -197,32 +324,36 @@
       <Item value="Length" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Graphics.SpriteBatch">
-      <Item value="Begin" priority="0" />
-      <Item value="End" priority="0" />
-      <Item value="Draw" priority="0" />
+      <Item value="Begin" priority="2" />
+      <Item value="End" priority="2" />
+      <Item value="Draw" priority="1" />
+      <Item value="DrawString" priority="1" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Content.ContentManager">
-      <Item value="Load" priority="0" />
+      <Item value="Load" priority="1" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Graphics.Color">
       <Item value="White" priority="0" />
+      <Item value="Brown" priority="0" />
+      <Item value="Black" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Graphics.GraphicsDevice">
       <Item value="DrawPrimitives" priority="0" />
       <Item value="Vertices" priority="2" />
-      <Item value="Viewport" priority="1" />
+      <Item value="Viewport" priority="3" />
       <Item value="DrawUserPrimitives" priority="0" />
-      <Item value="RenderState" priority="0" />
+      <Item value="RenderState" priority="2" />
       <Item value="VertexDeclaration" priority="1" />
+      <Item value="DisplayMode" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Graphics.VertexPositionColor">
-      <Item value="Position" priority="0" />
-      <Item value="Color" priority="0" />
+      <Item value="Position" priority="1" />
+      <Item value="Color" priority="2" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Matrix">
       <Item value="CreateLookAt" priority="0" />
       <Item value="CreateOrthographicOffCenter" priority="0" />
-      <Item value="Identity" priority="0" />
+      <Item value="Identity" priority="1" />
       <Item value="CreateTranslation" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Vector3">
@@ -230,31 +361,36 @@
       <Item value="Up" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Graphics.Viewport">
-      <Item value="Width" priority="0" />
-      <Item value="Height" priority="0" />
+      <Item value="Width" priority="1" />
+      <Item value="Height" priority="2" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:T4NET.Board">
       <Item value="HSize" priority="3" />
       <Item value="VSize" priority="2" />
       <Item value="Content" priority="1" />
       <Item value="TouchesBottom" priority="0" />
-      <Item value="Incorporate" priority="0" />
+      <Item value="Incorporate" priority="1" />
       <Item value="CanMoveLeft" priority="0" />
       <Item value="CanMoveRight" priority="0" />
       <Item value="RotateRight" priority="1" />
+      <Item value="CheckLines" priority="0" />
+      <Item value="InstantDrop" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Graphics.PrimitiveType">
       <Item value="LineList" priority="0" />
+      <Item value="TriangleFan" priority="1" />
+      <Item value="TriangleList" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Graphics.BasicEffect">
       <Item value="World" priority="0" />
       <Item value="Projection" priority="0" />
       <Item value="View" priority="0" />
-      <Item value="Begin" priority="0" />
-      <Item value="End" priority="0" />
+      <Item value="Begin" priority="1" />
+      <Item value="End" priority="1" />
       <Item value="CurrentTechnique" priority="0" />
       <Item value="LightingEnabled" priority="0" />
       <Item value="VertexColorEnabled" priority="0" />
+      <Item value="Parameters" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Graphics.EffectTechnique">
       <Item value="Passes" priority="0" />
@@ -274,19 +410,20 @@
       <Item value="SetSource" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.GameTime">
-      <Item value="TotalGameTime" priority="2" />
+      <Item value="TotalGameTime" priority="3" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.TimeSpan">
-      <Item value="TotalSeconds" priority="1" />
+      <Item value="TotalSeconds" priority="2" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:T4NET.Piece">
       <Item value="X" priority="18" />
-      <Item value="Y" priority="15" />
+      <Item value="Y" priority="17" />
       <Item value="Matrix" priority="3" />
       <Item value="RotateR" priority="2" />
       <Item value="RotateL" priority="1" />
       <Item value="CurrentPoints" priority="0" />
       <Item value="CurrentBlocks" priority="1" />
+      <Item value="Shift" priority="1" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Vector2">
       <Item value="Zero" priority="0" />
@@ -298,14 +435,180 @@
       <Item value="RandomPiece" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:System.Collections.Generic.HashSet`1">
-      <Item value="Clear" priority="0" />
-      <Item value="Add" priority="2" />
-      <Item value="UnionWith" priority="0" />
-      <Item value="Contains" priority="3" />
+      <Item value="Clear" priority="5" />
+      <Item value="Add" priority="5" />
+      <Item value="UnionWith" priority="1" />
+      <Item value="Contains" priority="9" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Point">
       <Item value="X" priority="4" />
       <Item value="Y" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Media.MediaSource">
+      <Item value="GetAvailableMediaSources" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Media.MediaSource">
+      <Item value="Name" priority="1" />
+      <Item value="MediaSourceType" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:T4NET.BoardControl">
+      <Item value="UpdateBoard" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Input.GamePad">
+      <Item value="GetState" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Input.GamePadState">
+      <Item value="IsConnected" priority="0" />
+      <Item value="Buttons" priority="0" />
+      <Item value="IsButtonDown" priority="3" />
+      <Item value="IsButtonUp" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Enum">
+      <Item value="GetValues" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:T4NET.ContolsState">
+      <Item value="ComputeState" priority="0" />
+      <Item value="KeyboardState" priority="0" />
+      <Item value="PadState" priority="0" />
+      <Item value="PressedKeys" priority="1" />
+      <Item value="PressedButtons" priority="0" />
+      <Item value="ReleasedKeys" priority="0" />
+      <Item value="ReleasedButtons" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.List`1">
+      <Item value="Contains" priority="0" />
+      <Item value="Add" priority="0" />
+      <Item value="Remove" priority="0" />
+      <Item value="AddRange" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:T4NET.Controls">
+      <Item value="IsPressed" priority="0" />
+      <Item value="JustPressed" priority="0" />
+      <Item value="JustReleased" priority="0" />
+      <Item value="AddKey" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:T4NET.ControlsConfig">
+      <Item value="JustPressed" priority="3" />
+      <Item value="IsPressed" priority="0" />
+      <Item value="GetControls" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@T4NET.Function">
+      <Item value="RIGHT" priority="2" />
+      <Item value="LEFT" priority="0" />
+      <Item value="DOWN" priority="2" />
+      <Item value="UP" priority="3" />
+      <Item value="ROTATE_L" priority="1" />
+      <Item value="ROTATE_R" priority="1" />
+      <Item value="REGEN_PIECE" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Input.Keys">
+      <Item value="Down" priority="0" />
+      <Item value="Up" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Net.NetworkSession">
+      <Item value="Create" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Console">
+      <Item value="WriteLine" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Net.NetworkSession">
+      <Item value="AllGamers" priority="0" />
+      <Item value="GamerJoined" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.GamerServices.GamerCollection`1">
+      <Item value="Count" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.GameComponentCollection">
+      <Item value="Add" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.GamerServices.Gamer">
+      <Item value="SignedInGamers" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.GamerServices.SignedInGamerCollection">
+      <Item value="Count" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.GamerServices.Guide">
+      <Item value="ShowSignIn" priority="0" />
+      <Item value="IsVisible" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.GamerServices.SignedInGamer">
+      <Item value="SignedIn" priority="0" />
+      <Item value="SignedInGamers" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Net.NetworkGamer">
+      <Item value="SignedInGamers" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Net.GamerJoinedEventArgs">
+      <Item value="Gamer" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Net.NetworkGamer">
+      <Item value="Gamertag" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@T4NET.Functions">
+      <Item value="All" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@Microsoft.Xna.Framework.Input.Buttons">
+      <Item value="B" priority="0" />
+      <Item value="BigButton" priority="1" />
+      <Item value="Back" priority="0" />
+      <Item value="DPadDown" priority="0" />
+      <Item value="DPadLeft" priority="0" />
+      <Item value="DPadRight" priority="0" />
+      <Item value="DPadUp" priority="0" />
+      <Item value="LeftShoulder" priority="0" />
+      <Item value="LeftStick" priority="0" />
+      <Item value="LeftThumbstickDown" priority="0" />
+      <Item value="RightThumbstickLeft" priority="1" />
+      <Item value="LeftThumbstickRight" priority="0" />
+      <Item value="LeftThumbstickUp" priority="0" />
+      <Item value="LeftTrigger" priority="0" />
+      <Item value="RightShoulder" priority="0" />
+      <Item value="RightStick" priority="0" />
+      <Item value="RightThumbstickDown" priority="0" />
+      <Item value="RightThumbstickRight" priority="0" />
+      <Item value="RightThumbstickUp" priority="0" />
+      <Item value="RightTrigger" priority="0" />
+      <Item value="Start" priority="0" />
+      <Item value="X" priority="0" />
+      <Item value="Y" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Graphics.Texture2D">
+      <Item value="SetData" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@T4NET.Graphic.ConsoleDisplay">
+      <Item value="LoadContent" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:T4NET.Graphic.ConsoleDisplay">
+      <Item value="Draw" priority="0" />
+      <Item value="Initialize" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Graphics.RenderState">
+      <Item value="CullMode" priority="0" />
+      <Item value="AlphaBlendEnable" priority="0" />
+      <Item value="SourceBlend" priority="0" />
+      <Item value="DestinationBlend" priority="0" />
+      <Item value="BlendFactor" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.Graphics.Color">
+      <Item value="A" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Microsoft.Xna.Framework.GraphicsDeviceManager">
+      <Item value="PreparingDeviceSettings" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@T4NET.Console">
+      <Item value="Text" priority="0" />
+      <Item value="WriteLine" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.LinkedList`1">
+      <Item value="AddLast" priority="0" />
+      <Item value="FindLast" priority="0" />
+      <Item value="Last" priority="0" />
+      <Item value="Count" priority="0" />
+      <Item value="RemoveFirst" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.LinkedListNode`1">
+      <Item value="Value" priority="0" />
+      <Item value="Previous" priority="0" />
     </ItemStatistics>
   </CompletionStatisticsManager>
 </Configuration>

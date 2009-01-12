@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Net;
+using T4NET.Graphic;
 
 namespace T4NET
 {
@@ -10,33 +14,79 @@ namespace T4NET
     /// </summary>
     public class T4Net : Game
     {
-        private readonly Board m_board = new Board(10, 20);
-        private readonly HashSet<Keys> m_previouslyPressedKeys = new HashSet<Keys>();
-        private BasicEffect basicEffect;
-        private VertexDeclaration basicEffectVertexDeclaration;
-        private VertexPositionNormalTexture[] cubeVertices;
-        private GraphicsDeviceManager graphics;
-        private Piece m_currentPiece;
+        private readonly Board m_board;
+        private readonly BoardDisplay m_boardDisplay;
+        private readonly BoardControl m_boardControl;
 
-        private Texture2D m_darkBlueBlock;
-        private Texture2D m_greenlock;
-        private double m_lastAutoDrop;
-        private double m_lastMove;
-        private Texture2D m_lightBlueBlock;
-        private Texture2D m_orangeBlock;
-        private Texture2D m_redBlock;
-        private Texture2D m_violetBlock;
-        private Texture2D m_yellowBlock;
-        private Matrix projectionMatrix;
+        private readonly Board m_enemyBoard;
+        private readonly BoardDisplay m_enemyBoardDisplay;
+
+        private readonly ContolsState m_controlsState = new ContolsState();
+        private readonly ControlsConfig m_controlsConfig;
+
+        private NetworkSession m_networkSession;
+
+        private GraphicsDeviceManager graphics;
+        private BasicEffect basicEffect;
         private SpriteBatch spriteBatch;
-        private VertexBuffer vertexBuffer;
+
+        private ConsoleDisplay m_console;
+
+        private Matrix projectionMatrix;
         private Matrix viewMatrix;
         private Matrix worldMatrix;
 
+        private bool m_gamerServiceInitialized = false;
+
         public T4Net()
         {
+            //Components.Add(new GamerServicesComponent(this));
+            //m_gamerServiceInitialized = true;
+            SignedInGamer.SignedIn += GamerSignedIn;
+
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
             Content.RootDirectory = "Content";
+
+            m_board = new Board(10, 20);
+            m_boardDisplay = new BoardDisplay(m_board);
+            m_boardControl = new BoardControl(m_board);
+
+            m_enemyBoard = new Board(10, 20);
+            m_enemyBoardDisplay = new BoardDisplay(m_enemyBoard);
+
+            m_controlsConfig = new ControlsConfig();
+            m_controlsConfig.GetControls(Function.LEFT).AddKey(Keys.Left);
+            m_controlsConfig.GetControls(Function.RIGHT).AddKey(Keys.Right);
+            m_controlsConfig.GetControls(Function.DOWN).AddKey(Keys.Down);
+            m_controlsConfig.GetControls(Function.UP).AddKey(Keys.Up);
+            m_controlsConfig.GetControls(Function.ROTATE_L).AddKey(Keys.W);
+            m_controlsConfig.GetControls(Function.ROTATE_R).AddKey(Keys.X);
+            m_controlsConfig.GetControls(Function.REGEN_PIECE).AddKey(Keys.C);
+
+            m_console = new ConsoleDisplay();
+        }
+
+        private void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        {
+            foreach (var displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
+            {
+                if (displayMode.Width == 1280 && displayMode.Height == 720)
+                {
+                    e.GraphicsDeviceInformation.PresentationParameters.BackBufferFormat = displayMode.Format;
+                    e.GraphicsDeviceInformation.PresentationParameters.BackBufferHeight = displayMode.Height;
+                    e.GraphicsDeviceInformation.PresentationParameters.BackBufferWidth = displayMode.Width;
+                    //e.GraphicsDeviceInformation.PresentationParameters.FullScreenRefreshRateInHz = displayMode.RefreshRate;
+                    //e.GraphicsDeviceInformation.PresentationParameters.IsFullScreen = true;
+                    return;
+                }
+            }
+
+        }
+
+        private void GamerSignedIn(object sender, SignedInEventArgs e)
+        {
+            Console.WriteLine("gamer signed in");
         }
 
         /// <summary>
@@ -47,20 +97,6 @@ namespace T4NET
         /// </summary>
         protected override void Initialize()
         {
-            RegenPiece();
-
-            base.Initialize();
-        }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
             basicEffect = new BasicEffect(GraphicsDevice, null);
             basicEffect.VertexColorEnabled = true;
             worldMatrix = Matrix.CreateTranslation(100.0f, 50.0f, 0.0f);
@@ -69,16 +105,27 @@ namespace T4NET
                                                                   GraphicsDevice.Viewport.Height, 0, 1.0f,
                                                                   1000.0f);
             basicEffect.World = worldMatrix;
-            basicEffect.Projection = projectionMatrix;
             basicEffect.View = viewMatrix;
+            basicEffect.Projection = projectionMatrix;
 
-            m_darkBlueBlock = Content.Load<Texture2D>("DarkBlueBlock");
-            m_lightBlueBlock = Content.Load<Texture2D>("LightBlueBlock");
-            m_greenlock = Content.Load<Texture2D>("GreenBlock");
-            m_orangeBlock = Content.Load<Texture2D>("OrangeBlock");
-            m_redBlock = Content.Load<Texture2D>("RedBlock");
-            m_violetBlock = Content.Load<Texture2D>("VioletBlock");
-            m_yellowBlock = Content.Load<Texture2D>("YellowBlock");
+            m_boardDisplay.Initialize(GraphicsDevice, basicEffect);
+            m_enemyBoardDisplay.Initialize(GraphicsDevice, basicEffect);
+            m_console.Initialize(GraphicsDevice, basicEffect);
+            Console.LineWidth = m_console.CharacterWidth;
+
+            base.Initialize();
+
+            Console.WriteLine("T4NET initialized...");
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            BoardDisplay.LoadContent(Content);
+            ConsoleDisplay.LoadContent(Content);
         }
 
         /// <summary>
@@ -87,7 +134,6 @@ namespace T4NET
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -99,115 +145,37 @@ namespace T4NET
         {
             // Allows the game to exit
             var keyboardState = Keyboard.GetState(PlayerIndex.One);
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
-                || keyboardState.IsKeyDown(Keys.Escape))
+            if (keyboardState.IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
-            var keysPressed = new HashSet<Keys>();
-            var keysReleased = new HashSet<Keys>();
-            foreach (var key in keyboardState.GetPressedKeys())
+            if (m_gamerServiceInitialized && !Guide.IsVisible && keyboardState.IsKeyDown(Keys.F12))
             {
-                if (!m_previouslyPressedKeys.Contains(key))
-                {
-                    keysPressed.Add(key);
-                }
+                Guide.ShowSignIn(1, false);
             }
-            foreach (var key in m_previouslyPressedKeys)
+            if (m_gamerServiceInitialized && m_networkSession == null && keyboardState.IsKeyDown(Keys.F10))
             {
-                if (keyboardState.IsKeyUp(key))
-                {
-                    keysReleased.Add(key);
-                }
-            }
-            m_previouslyPressedKeys.Clear();
-            m_previouslyPressedKeys.UnionWith(keyboardState.GetPressedKeys());
-
-            if (keysPressed.Contains(Keys.C))
-            {
-                RegenPiece();
+                m_networkSession = NetworkSession.Create(NetworkSessionType.Local, 2, 2);
+                m_networkSession.GamerJoined += OnGamerJoined;
             }
 
-            if (m_currentPiece != null)
+            if (m_networkSession != null)
             {
-                var totalSeconds = gameTime.TotalGameTime.TotalSeconds;
-                if (keyboardState.IsKeyDown(Keys.Right))
-                {
-                    if ((totalSeconds - m_lastMove) > 0.3)
-                    {
-                        m_lastMove = totalSeconds;
-                        if (m_board.CanMoveRight(m_currentPiece))
-                        {
-                            m_currentPiece.X = m_currentPiece.X + 1;
-                        }
-                    }
-                }
-                else if (keyboardState.IsKeyDown(Keys.Left))
-                {
-                    if ((totalSeconds - m_lastMove) > 0.3)
-                    {
-                        m_lastMove = totalSeconds;
-                        if (m_board.CanMoveLeft(m_currentPiece))
-                        {
-                            m_currentPiece.X = m_currentPiece.X - 1;
-                        }
-                    }
-                }
-                else if (keyboardState.IsKeyDown(Keys.Down))
-                {
-                    if ((totalSeconds - m_lastMove) > 0.1)
-                    {
-                        m_lastMove = totalSeconds;
-                        m_lastAutoDrop = totalSeconds;
-                        if (m_board.CanMoveDown(m_currentPiece))
-                        {
-                            m_currentPiece.Y = m_currentPiece.Y + 1;
-                        }
-                        else
-                        {
-                            m_board.Incorporate(m_currentPiece);
-                            RegenPiece();
-                        }
-                    }
-                }
-                else
-                {
-                    m_lastMove = -1;
-                }
-
-                if (keysPressed.Contains(Keys.X))
-                {
-                    m_board.RotateRight(m_currentPiece);
-                }
-                else if (keysPressed.Contains(Keys.W))
-                {
-                    m_board.RotateLeft(m_currentPiece);
-                }
-
-                if ((totalSeconds - m_lastAutoDrop) > 0.4)
-                {
-                    m_lastAutoDrop = totalSeconds;
-                    if (m_board.CanMoveDown(m_currentPiece))
-                    {
-                        //m_currentPiece.Y = m_currentPiece.Y + 1;
-                    }
-                    else
-                    {
-                        m_board.Incorporate(m_currentPiece);
-                        RegenPiece();
-                    }
-                }
+                System.Console.WriteLine(m_networkSession.AllGamers.Count);
             }
+
+            // Update board according to player actions
+            var padState = GamePad.GetState(PlayerIndex.One);
+            m_controlsState.ComputeState(keyboardState, padState);
+            m_boardControl.UpdateBoard(gameTime, m_controlsConfig, m_controlsState);
 
             base.Update(gameTime);
         }
 
-        private void RegenPiece()
+        private void OnGamerJoined(object sender, GamerJoinedEventArgs e)
         {
-            m_currentPiece = Piece.RandomPiece();
-            m_currentPiece.X = 5;
-            m_currentPiece.Y = 2;
+            Console.WriteLine("Gamer joined: " + e.Gamer.Gamertag);
         }
 
         /// <summary>
@@ -216,67 +184,10 @@ namespace T4NET
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            const int BLOCK_SIZE = 20;
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            var grid = new VertexPositionColor[(m_board.HSize + m_board.VSize + 2)*2];
-            int idx = 0;
-            for (int i = 0; i <= m_board.HSize; i++)
-            {
-                grid[idx].Position = new Vector3(i*BLOCK_SIZE, 0, 0);
-                grid[idx].Color = Color.Black;
-                grid[idx + 1].Position = new Vector3(i*BLOCK_SIZE, m_board.VSize*BLOCK_SIZE, 0);
-                grid[idx + 1].Color = Color.Black;
-                idx += 2;
-            }
-            for (int j = 0; j <= m_board.VSize; j++)
-            {
-                grid[idx].Position = new Vector3(0, j*BLOCK_SIZE, 0);
-                grid[idx].Color = Color.Black;
-                grid[idx + 1].Position = new Vector3(m_board.HSize*BLOCK_SIZE, j*BLOCK_SIZE, 0);
-                grid[idx + 1].Color = Color.Black;
-                idx += 2;
-            }
-            basicEffectVertexDeclaration = new VertexDeclaration(GraphicsDevice, VertexPositionColor.VertexElements);
-            vertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.SizeInBytes*grid.Length,
-                                            BufferUsage.None);
-            vertexBuffer.SetData(grid);
-            GraphicsDevice.VertexDeclaration = basicEffectVertexDeclaration;
-            GraphicsDevice.Vertices[0].SetSource(vertexBuffer, 0, VertexPositionColor.SizeInBytes);
-            basicEffect.Begin();
-            foreach (var pass in basicEffect.CurrentTechnique.Passes)
-            {
-                pass.Begin();
-                GraphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, m_board.HSize + m_board.VSize + 2);
-                pass.End();
-            }
-            basicEffect.End();
-            spriteBatch.Begin();
-            for (int i = 0; i < m_board.HSize; i++)
-            {
-                for (int j = 0; j < m_board.VSize; j++)
-                {
-                    if (m_board.Content[i][j] != 0)
-                    {
-                        spriteBatch.Draw(m_lightBlueBlock,
-                                         new Rectangle(100 + BLOCK_SIZE*i + 1, 50 + BLOCK_SIZE*j + 1,
-                                                       BLOCK_SIZE - 1, BLOCK_SIZE - 1), Color.White);
-                    }
-                }
-            }
-            if (m_currentPiece != null)
-            {
-                foreach (var b in m_currentPiece.CurrentBlocks)
-                {
-                    int x = m_currentPiece.X + b.X;
-                    int y = m_currentPiece.Y + b.Y;
-                    Texture2D block = m_darkBlueBlock;// (b.X == 0 && b.Y == 0) ? m_redBlock : m_darkBlueBlock;
-                    spriteBatch.Draw(block,
-                                     new Rectangle(100 + BLOCK_SIZE*x + 1,
-                                                   50 + BLOCK_SIZE*y + 1,
-                                                   BLOCK_SIZE - 1, BLOCK_SIZE - 1), Color.White);
-                }
-            }
-            spriteBatch.End();
+            m_boardDisplay.Draw(new Point(100, 60), 1f);
+            m_enemyBoardDisplay.Draw(new Point(500, 100), 0.8f);
+            m_console.Draw();
             base.Draw(gameTime);
         }
     }
