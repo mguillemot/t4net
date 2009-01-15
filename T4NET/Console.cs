@@ -13,8 +13,9 @@ namespace T4NET
             set { s_lineWidth = value; }
         }
 
-        public static void WriteLine(string text)
+        public static void WriteLine(string text, params object[] p)
         {
+            text = string.Format(text, p);
             System.Console.WriteLine("CONSOLE: " + text);
             while (text.Length > LineWidth)
             {

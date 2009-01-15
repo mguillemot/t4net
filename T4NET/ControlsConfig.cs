@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 
 namespace T4NET
@@ -20,17 +21,17 @@ namespace T4NET
             return m_controls[function];
         }
 
-        public bool IsPressed(Function function, ContolsState state)
+        public bool IsPressed(Function function, ControlsState state)
         {
             return m_controls[function].IsPressed(state);
         }
 
-        public bool JustPressed(Function function, ContolsState state)
+        public bool JustPressed(Function function, ControlsState state)
         {
             return m_controls[function].JustPressed(state);
         }
 
-        public bool JustReleased(Function function, ContolsState state)
+        public bool JustReleased(Function function, ControlsState state)
         {
             return m_controls[function].JustReleased(state);
         }
@@ -88,7 +89,7 @@ namespace T4NET
             m_buttons.Remove(button);
         }
 
-        internal bool IsPressed(ContolsState state)
+        internal bool IsPressed(ControlsState state)
         {
             foreach (var key in m_keys)
             {
@@ -99,7 +100,7 @@ namespace T4NET
             }
             foreach (var button in m_buttons)
             {
-                if (state.PadState.IsButtonDown(button))
+                if (ControlsState.IsButtonDown(state.PadState, button))
                 {
                     return true;
                 }
@@ -107,7 +108,7 @@ namespace T4NET
             return false;
         }
 
-        internal bool JustPressed(ContolsState state)
+        internal bool JustPressed(ControlsState state)
         {
             foreach (var key in m_keys)
             {
@@ -126,7 +127,7 @@ namespace T4NET
             return false;
         }
 
-        internal bool JustReleased(ContolsState state)
+        internal bool JustReleased(ControlsState state)
         {
             foreach (var key in m_keys)
             {

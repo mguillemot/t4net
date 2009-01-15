@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Net;
 using T4NET.Graphic;
+using T4NET.Menu;
+using T4NET.Menu.Screens;
 
 namespace T4NET
 {
@@ -21,8 +23,7 @@ namespace T4NET
         private readonly Board m_enemyBoard;
         private readonly BoardDisplay m_enemyBoardDisplay;
 
-        private readonly ContolsState m_controlsState = new ContolsState();
-        private readonly ControlsConfig m_controlsConfig;
+        private Screen m_currentScreen;
 
         private NetworkSession m_networkSession;
 
@@ -45,7 +46,9 @@ namespace T4NET
             SignedInGamer.SignedIn += GamerSignedIn;
 
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            //graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
             Content.RootDirectory = "Content";
 
             m_board = new Board(10, 20);
@@ -55,14 +58,7 @@ namespace T4NET
             m_enemyBoard = new Board(10, 20);
             m_enemyBoardDisplay = new BoardDisplay(m_enemyBoard);
 
-            m_controlsConfig = new ControlsConfig();
-            m_controlsConfig.GetControls(Function.LEFT).AddKey(Keys.Left);
-            m_controlsConfig.GetControls(Function.RIGHT).AddKey(Keys.Right);
-            m_controlsConfig.GetControls(Function.DOWN).AddKey(Keys.Down);
-            m_controlsConfig.GetControls(Function.UP).AddKey(Keys.Up);
-            m_controlsConfig.GetControls(Function.ROTATE_L).AddKey(Keys.W);
-            m_controlsConfig.GetControls(Function.ROTATE_R).AddKey(Keys.X);
-            m_controlsConfig.GetControls(Function.REGEN_PIECE).AddKey(Keys.C);
+            m_currentScreen = new TitleScreen();
 
             m_console = new ConsoleDisplay();
         }
@@ -86,7 +82,7 @@ namespace T4NET
 
         private void GamerSignedIn(object sender, SignedInEventArgs e)
         {
-            Console.WriteLine("gamer signed in");
+            Console.WriteLine(e.Gamer.Gamertag + " signed in");
         }
 
         /// <summary>
@@ -113,6 +109,8 @@ namespace T4NET
             m_console.Initialize(GraphicsDevice, basicEffect);
             Console.LineWidth = m_console.CharacterWidth;
 
+            m_currentScreen.Initialize(GraphicsDevice);
+
             base.Initialize();
 
             Console.WriteLine("T4NET initialized...");
@@ -126,6 +124,7 @@ namespace T4NET
         {
             BoardDisplay.LoadContent(Content);
             ConsoleDisplay.LoadContent(Content);
+            MenuDisplay.LoadContent(Content);
         }
 
         /// <summary>
@@ -145,30 +144,42 @@ namespace T4NET
         {
             // Allows the game to exit
             var keyboardState = Keyboard.GetState(PlayerIndex.One);
-            if (keyboardState.IsKeyDown(Keys.Escape))
+            if (keyboardState.IsKeyDown(Keys.Escape) || GamePad.GetState(0).IsButtonDown(Buttons.Back))
             {
                 Exit();
             }
-
             if (m_gamerServiceInitialized && !Guide.IsVisible && keyboardState.IsKeyDown(Keys.F12))
             {
                 Guide.ShowSignIn(1, false);
             }
-            if (m_gamerServiceInitialized && m_networkSession == null && keyboardState.IsKeyDown(Keys.F10))
+            if (m_gamerServiceInitialized && m_networkSession == null && (keyboardState.IsKeyDown(Keys.F10) || GamePad.GetState(0).IsButtonDown(Buttons.Start)))
             {
-                m_networkSession = NetworkSession.Create(NetworkSessionType.Local, 2, 2);
+                m_networkSession = NetworkSession.Create(NetworkSessionType.SystemLink, 1, 8, 2, new NetworkSessionProperties());
+                Console.WriteLine("Session " + m_networkSession.Host.Gamertag + " created");
+                m_networkSession.AllowJoinInProgress = true;
                 m_networkSession.GamerJoined += OnGamerJoined;
+            }
+            if (m_gamerServiceInitialized && (keyboardState.IsKeyDown(Keys.F11) || GamePad.GetState(0).IsButtonDown(Buttons.LeftShoulder)))
+            {
+                var sessions = NetworkSession.Find(NetworkSessionType.SystemLink, 1, new NetworkSessionProperties());
+                foreach (var session in sessions)
+                {
+                    Console.WriteLine("======= " + session.HostGamertag + " has " + session.CurrentGamerCount);
+                }
+                Console.WriteLine("Enumerate sessions done");
             }
 
             if (m_networkSession != null)
             {
+                m_networkSession.Update();
                 System.Console.WriteLine(m_networkSession.AllGamers.Count);
             }
 
-            // Update board according to player actions
-            var padState = GamePad.GetState(PlayerIndex.One);
-            m_controlsState.ComputeState(keyboardState, padState);
-            m_boardControl.UpdateBoard(gameTime, m_controlsConfig, m_controlsState);
+            var controlsProvider = (IControlsProvider) Services.GetService(typeof(IControlsProvider));
+            m_boardControl.Update(gameTime, controlsProvider);
+
+            // Update current screen
+            m_currentScreen.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -188,6 +199,7 @@ namespace T4NET
             m_boardDisplay.Draw(new Point(100, 60), 1f);
             m_enemyBoardDisplay.Draw(new Point(500, 100), 0.8f);
             m_console.Draw();
+            m_currentScreen.Draw();
             base.Draw(gameTime);
         }
     }

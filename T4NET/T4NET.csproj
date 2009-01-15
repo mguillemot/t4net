@@ -14,6 +14,7 @@
     <XnaCrossPlatformGroupID>d57954fe-0676-48cf-9845-30ad12843e5b</XnaCrossPlatformGroupID>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -87,10 +87,16 @@
     <Compile Include="Board.cs" />
     <Compile Include="BoardControl.cs" />
     <Compile Include="Console.cs" />
-    <Compile Include="ContolsState.cs" />
+    <Compile Include="IControlsProvider.cs" />
+    <Compile Include="ControlsState.cs" />
+    <Compile Include="ControlsComponent.cs" />
     <Compile Include="ControlsConfig.cs" />
     <Compile Include="Graphic\BoardDisplay.cs" />
     <Compile Include="Graphic\ConsoleDisplay.cs" />
+    <Compile Include="Graphic\MenuDisplay.cs" />
+    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\Screen.cs" />
+    <Compile Include="Menu\Screens\TitleScreen.cs" />
     <Compile Include="Network\Message.cs" />
     <Compile Include="Network\MessageDecoder.cs" />
     <Compile Include="Network\Messages\Gameplay\PlayerIncorporatePieceMessage.cs" />

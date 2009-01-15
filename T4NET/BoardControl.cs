@@ -21,24 +21,27 @@ namespace T4NET
 
         private double AutoDropTime { get; set; }
 
-        public void UpdateBoard(GameTime gameTime, ControlsConfig config, ContolsState state)
+        public void Update(GameTime gameTime, IControlsProvider controlsProvider)
         {
             m_totalSeconds = gameTime.TotalGameTime.TotalSeconds;
             double timeSinceStart = m_totalSeconds - m_currentFunctionStart;
             double timeSinceSub = m_totalSeconds - m_currentFunctionSub;
+            var config = controlsProvider.CurrentConfig;
+            var state = controlsProvider.CurrentState;
 
             if (config.JustPressed(Function.REGEN_PIECE, state) || m_board.CurrentPiece == null)
             {
                 RegenPiece();
             }
-
+            
             switch (m_currentFunction)
             {
                 case BoardFunction.PIECE_LOCKING:
                     if (timeSinceStart > .3)
                     {
                         m_board.Incorporate();
-                        if (m_board.CheckLines())
+                        var completeLines = m_board.CheckCompleteLines();
+                        if (completeLines.Count > 0)
                         {
                             // If lines are found
                             m_currentFunction = BoardFunction.LINE_VANISHING;
@@ -46,7 +49,7 @@ namespace T4NET
                         }
                         else
                         {
-                            m_currentFunction = BoardFunction.KEY_FUNCTION;
+                            m_currentFunction = BoardFunction.NONE;
                             m_currentFunctionStart = m_totalSeconds;
                             RegenPiece();
                         }
@@ -55,9 +58,35 @@ namespace T4NET
                 case BoardFunction.LINE_VANISHING:
                     if (timeSinceStart > .3)
                     {
-                        m_currentFunction = BoardFunction.KEY_FUNCTION;
+                        m_board.DeleteCompleteLines();
+                        m_currentFunction = BoardFunction.NONE;
                         m_currentFunctionStart = m_totalSeconds;
+                        RegenPiece();
+
                     }
+                    break;
+                case BoardFunction.NONE:
+                    if (config.IsPressed(Function.LEFT, state))
+                    {
+                        m_currentKeyFunction = Function.LEFT;
+                        m_currentFunctionStart = -1;
+                    } 
+                    else if (config.IsPressed(Function.RIGHT, state))
+                    {
+                        m_currentKeyFunction = Function.RIGHT;
+                        m_currentFunctionStart = -1;
+                    }
+                    else if (config.IsPressed(Function.UP, state))
+                    {
+                        m_currentKeyFunction = Function.UP;
+                        m_currentFunctionStart = -1;
+                    }
+                    else if (config.IsPressed(Function.DOWN, state))
+                    {
+                        m_currentKeyFunction = Function.DOWN;
+                        m_currentFunctionStart = -1;
+                    }
+                    m_currentFunction = BoardFunction.KEY_FUNCTION;
                     break;
                 case BoardFunction.KEY_FUNCTION:
                     if (config.JustPressed(Function.RIGHT, state))
@@ -77,7 +106,6 @@ namespace T4NET
                         m_currentKeyFunction = Function.DOWN;
                         m_currentFunctionStart = m_totalSeconds;
                         MoveDown();
-                        
                     }
                     else if (config.JustPressed(Function.UP, state))
                     {
@@ -156,10 +184,15 @@ namespace T4NET
 
         private void MoveUp()
         {
-            if (m_board.InstantDrop() > 0)
-            {
-                m_lastAutoDrop = m_totalSeconds;
-            }
+            // Scheme #1: piece doesn't instantly lock
+            //if (m_board.InstantDrop() > 0)
+            //{
+            //    m_lastAutoDrop = m_totalSeconds;
+            //}
+
+            // Scheme #2: piece does instantly lock
+            m_board.InstantDrop();
+            LockPiece();
         }
 
         private void RegenPiece()
@@ -177,6 +210,7 @@ namespace T4NET
 
         private enum BoardFunction
         {
+            NONE,
             KEY_FUNCTION,
             PIECE_LOCKING,
             LINE_VANISHING

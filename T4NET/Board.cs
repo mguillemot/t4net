@@ -150,9 +150,9 @@ namespace T4NET
             }
         }
 
-        public bool CheckLines()
+        public List<int> CheckCompleteLines()
         {
-            bool lineFound = false;
+            var result = new List<int>();
             for (int j = m_vSize - 1; j >= 0; j--)
             {
                 bool complete = true;
@@ -166,7 +166,27 @@ namespace T4NET
                 }
                 if (complete)
                 {
-                    lineFound = true;
+                    result.Add(j);
+                }
+            }
+            return result;
+        }
+
+        public void DeleteCompleteLines()
+        {
+            for (int j = m_vSize - 1; j >= 0; j--)
+            {
+                bool complete = true;
+                for (int i = 0; i < m_hSize; i++)
+                {
+                    if (m_board[i][j] == 0)
+                    {
+                        complete = false;
+                        break;
+                    }
+                }
+                if (complete)
+                {
                     // Collapse
                     if (j > 0)
                     {
@@ -185,7 +205,6 @@ namespace T4NET
                     j++; // rechecks same line
                 }
             }
-            return lineFound;
         }
     }
 }

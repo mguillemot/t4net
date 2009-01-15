@@ -1,6 +1,6 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{637e1424-3c5d-4df0-a057-493c12a59063}</ProjectGuid>
+    <ProjectGuid>{637E1424-3C5D-4DF0-A057-493C12A59063}</ProjectGuid>
     <ProjectTypeGuids>{2DF5C3F4-5A5F-47a9-8E94-23B4456F55E2};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
@@ -29,6 +29,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
     <OutputPath>bin\Xbox 360\Debug</OutputPath>
@@ -59,10 +61,16 @@
     <Compile Include="Board.cs" />
     <Compile Include="BoardControl.cs" />
     <Compile Include="Console.cs" />
-    <Compile Include="ContolsState.cs" />
+    <Compile Include="ControlsComponent.cs" />
     <Compile Include="ControlsConfig.cs" />
+    <Compile Include="ControlsState.cs" />
     <Compile Include="Graphic\BoardDisplay.cs" />
     <Compile Include="Graphic\ConsoleDisplay.cs" />
+    <Compile Include="Graphic\MenuDisplay.cs" />
+    <Compile Include="IControlsProvider.cs" />
+    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\Screen.cs" />
+    <Compile Include="Menu\Screens\TitleScreen.cs" />
     <Compile Include="Network\Message.cs" />
     <Compile Include="Network\MessageDecoder.cs" />
     <Compile Include="Network\Messages\Gameplay\PlayerIncorporatePieceMessage.cs" />
@@ -121,9 +129,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Network\Messages\System\" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework">
       <Private>False</Private>
     </Reference>
@@ -148,6 +153,9 @@
       <Private>False</Private>
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Network\Messages\System\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
