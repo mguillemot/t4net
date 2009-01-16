@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace T4NET
 {
-    public class Board
+    public class Board : ICloneable
     {
         private static readonly List<Point> ALTERNATIVE_POSITIONS = new List<Point>
                                                                         {
@@ -16,20 +17,47 @@ namespace T4NET
                                                                             new Point(1, -1)
                                                                         };
 
-        private readonly int[][] m_board;
+        private static readonly Random s_random = new Random();
+
+        private readonly Block[][] m_board;
+        private readonly Stack<Block> m_collectedBonuses = new Stack<Block>();
         private readonly int m_hSize;
         private readonly int m_vSize;
         private Piece m_currentPiece;
+        private Piece m_nextPiece;
 
         public Board(int hSize, int vSize)
         {
             m_hSize = hSize;
             m_vSize = vSize + 1;
-            m_board = new int[hSize][];
+            m_board = new Block[hSize][];
             for (int i = 0; i < m_hSize; i++)
             {
-                m_board[i] = new int[m_vSize];
+                m_board[i] = new Block[m_vSize];
+                for (int j = 0; j < m_vSize; j++)
+                {
+                    m_board[i][j] = Block.EMPTY;
+                }
             }
+            m_nextPiece = Piece.RandomPiece();
+        }
+
+        public object Clone()
+        {
+            var copy = new Board(m_hSize, m_vSize)
+                           {
+                               m_currentPiece = ((Piece) m_currentPiece.Clone()),
+                               m_nextPiece = ((Piece) m_nextPiece.Clone())
+                           };
+            for (int i = 0; i < m_hSize; i++)
+            {
+                for (int j = 0; j < m_vSize; j++)
+                {
+                    copy.m_board[i][j] = m_board[i][j];
+                }
+            }
+            // TODO collected bonuses
+            return copy;
         }
 
         public int VSize
@@ -42,7 +70,7 @@ namespace T4NET
             get { return m_hSize; }
         }
 
-        public int[][] Content
+        public Block[][] Content
         {
             get { return m_board; }
         }
@@ -50,7 +78,16 @@ namespace T4NET
         public Piece CurrentPiece
         {
             get { return m_currentPiece; }
-            set { m_currentPiece = value; }
+        }
+
+        public Piece NextPiece
+        {
+            get { return m_nextPiece; }
+        }
+
+        public Stack<Block> CollectedBonuses
+        {
+            get { return m_collectedBonuses; }
         }
 
         public bool CanMoveDown()
@@ -75,6 +112,12 @@ namespace T4NET
             bool result = ValidPosition();
             m_currentPiece.Shift(-1, 0);
             return result;
+        }
+
+        public void SwitchToNextPiece()
+        {
+            m_currentPiece = m_nextPiece;
+            m_nextPiece = Piece.RandomPiece();
         }
 
         public void RotateRight()
@@ -158,7 +201,7 @@ namespace T4NET
                 bool complete = true;
                 for (int i = 0; i < m_hSize; i++)
                 {
-                    if (m_board[i][j] == 0)
+                    if (m_board[i][j] == Block.EMPTY)
                     {
                         complete = false;
                         break;
@@ -179,7 +222,7 @@ namespace T4NET
                 bool complete = true;
                 for (int i = 0; i < m_hSize; i++)
                 {
-                    if (m_board[i][j] == 0)
+                    if (m_board[i][j] == Block.EMPTY)
                     {
                         complete = false;
                         break;
@@ -187,6 +230,13 @@ namespace T4NET
                 }
                 if (complete)
                 {
+                    for (int i = 0; i < m_hSize; i++)
+                    {
+                        if (Blocks.SPECIAL_BLOCKS.Contains(m_board[i][j]))
+                        {
+                            m_collectedBonuses.Push(m_board[i][j]);
+                        }
+                    }
                     // Collapse
                     if (j > 0)
                     {
@@ -200,10 +250,38 @@ namespace T4NET
                     }
                     for (int i = 0; i < m_hSize; i++)
                     {
-                        m_board[i][0] = 0;
+                        m_board[i][0] = Block.EMPTY;
                     }
                     j++; // rechecks same line
                 }
+            }
+        }
+
+        public void TransformRandomBlocksToSpecial(int nBlocks, List<int> excludedLines)
+        {
+            var allStandardBlocks = new List<Point>();
+            for (int i = 0; i < m_hSize; i++)
+            {
+                for (int j = 0; j < m_vSize; j++)
+                {
+                    if (m_board[i][j] != Block.EMPTY)
+                    {
+                        allStandardBlocks.Add(new Point(i, j));
+                    }
+                }
+            }
+            while (nBlocks > 0 && allStandardBlocks.Count > 0)
+            {
+                int selectedBlockIndex = s_random.Next(allStandardBlocks.Count);
+                Point selectedBlock = allStandardBlocks[selectedBlockIndex];
+                allStandardBlocks.RemoveAt(selectedBlockIndex);
+                if (excludedLines.Contains(selectedBlock.Y))
+                {
+                    continue;
+                }
+                Block blockType = Blocks.SPECIAL_BLOCKS[s_random.Next(Blocks.SPECIAL_BLOCKS.Count)];
+                m_board[selectedBlock.X][selectedBlock.Y] = blockType;
+                nBlocks--;
             }
         }
     }

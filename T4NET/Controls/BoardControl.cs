@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace T4NET
+namespace T4NET.Controls
 {
     public class BoardControl
     {
@@ -31,7 +31,7 @@ namespace T4NET
 
             if (config.JustPressed(Function.REGEN_PIECE, state) || m_board.CurrentPiece == null)
             {
-                RegenPiece();
+                m_board.SwitchToNextPiece();
             }
             
             switch (m_currentFunction)
@@ -44,6 +44,7 @@ namespace T4NET
                         if (completeLines.Count > 0)
                         {
                             // If lines are found
+                            m_board.TransformRandomBlocksToSpecial(completeLines.Count, completeLines);
                             m_currentFunction = BoardFunction.LINE_VANISHING;
                             m_currentFunctionStart = m_totalSeconds;
                         }
@@ -51,7 +52,7 @@ namespace T4NET
                         {
                             m_currentFunction = BoardFunction.NONE;
                             m_currentFunctionStart = m_totalSeconds;
-                            RegenPiece();
+                            m_board.SwitchToNextPiece();
                         }
                     }
                     break;
@@ -61,7 +62,7 @@ namespace T4NET
                         m_board.DeleteCompleteLines();
                         m_currentFunction = BoardFunction.NONE;
                         m_currentFunctionStart = m_totalSeconds;
-                        RegenPiece();
+                        m_board.SwitchToNextPiece();
 
                     }
                     break;
@@ -193,11 +194,6 @@ namespace T4NET
             // Scheme #2: piece does instantly lock
             m_board.InstantDrop();
             LockPiece();
-        }
-
-        private void RegenPiece()
-        {
-            m_board.CurrentPiece = Piece.RandomPiece();
         }
 
         private void LockPiece()

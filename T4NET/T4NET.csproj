@@ -84,19 +84,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIs\BasicAi.cs" />
+    <Compile Include="Block.cs" />
     <Compile Include="Board.cs" />
-    <Compile Include="BoardControl.cs" />
+    <Compile Include="ConsoleComponent.cs" />
+    <Compile Include="Controls\BoardControl.cs" />
     <Compile Include="Console.cs" />
-    <Compile Include="IControlsProvider.cs" />
-    <Compile Include="ControlsState.cs" />
-    <Compile Include="ControlsComponent.cs" />
-    <Compile Include="ControlsConfig.cs" />
+    <Compile Include="Controls\Function.cs" />
+    <Compile Include="Controls\FunctionConfig.cs" />
+    <Compile Include="Controls\Functions.cs" />
+    <Compile Include="Controls\IControlsProvider.cs" />
+    <Compile Include="Controls\ControlsState.cs" />
+    <Compile Include="Controls\ControlsComponent.cs" />
+    <Compile Include="Controls\ControlsConfig.cs" />
     <Compile Include="Graphic\BoardDisplay.cs" />
     <Compile Include="Graphic\ConsoleDisplay.cs" />
     <Compile Include="Graphic\MenuDisplay.cs" />
-    <Compile Include="Menu\Menu.cs" />
-    <Compile Include="Menu\Screen.cs" />
-    <Compile Include="Menu\Screens\TitleScreen.cs" />
+    <Compile Include="Menus\Menu.cs" />
+    <Compile Include="Menus\MenuEntry.cs" />
+    <Compile Include="Network\NetworkComponent.cs" />
+    <Compile Include="Blocks.cs" />
+    <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\Screen.cs" />
+    <Compile Include="Screens\ScreenComponent.cs" />
+    <Compile Include="Screens\TitleScreen.cs" />
     <Compile Include="Network\Message.cs" />
     <Compile Include="Network\MessageDecoder.cs" />
     <Compile Include="Network\Messages\Gameplay\PlayerIncorporatePieceMessage.cs" />

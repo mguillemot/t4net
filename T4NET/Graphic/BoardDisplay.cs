@@ -9,7 +9,7 @@ namespace T4NET.Graphic
     {
         private const int BLOCK_SIZE = 20;
 
-        private static readonly Dictionary<int, Texture2D> s_blockTextures = new Dictionary<int, Texture2D>();
+        private static readonly Dictionary<Block, Texture2D> s_blockTextures = new Dictionary<Block, Texture2D>();
 
         private readonly Board m_board;
         private BasicEffect m_basicEffect;
@@ -37,13 +37,17 @@ namespace T4NET.Graphic
 
         public static void LoadContent(ContentManager content)
         {
-            s_blockTextures[1] = content.Load<Texture2D>("DarkBlueBlock");
-            s_blockTextures[2] = content.Load<Texture2D>("GreenBlock");
-            s_blockTextures[3] = content.Load<Texture2D>("LightBlueBlock");
-            s_blockTextures[4] = content.Load<Texture2D>("OrangeBlock");
-            s_blockTextures[5] = content.Load<Texture2D>("RedBlock");
-            s_blockTextures[6] = content.Load<Texture2D>("VioletBlock");
-            s_blockTextures[7] = content.Load<Texture2D>("YellowBlock");
+            s_blockTextures[Block.DARK_BLUE] = content.Load<Texture2D>("DarkBlueBlock");
+            s_blockTextures[Block.GREEN] = content.Load<Texture2D>("GreenBlock");
+            s_blockTextures[Block.LIGHT_BLUE] = content.Load<Texture2D>("LightBlueBlock");
+            s_blockTextures[Block.ORANGE] = content.Load<Texture2D>("OrangeBlock");
+            s_blockTextures[Block.RED] = content.Load<Texture2D>("RedBlock");
+            s_blockTextures[Block.VIOLET] = content.Load<Texture2D>("VioletBlock");
+            s_blockTextures[Block.YELLOW] = content.Load<Texture2D>("YellowBlock");
+            
+            s_blockTextures[Block.BONUS_C] = content.Load<Texture2D>("BonusCBlock");
+            s_blockTextures[Block.BONUS_N] = content.Load<Texture2D>("BonusNBlock");
+            s_blockTextures[Block.MALUS_A] = content.Load<Texture2D>("MalusABlock");
         }
 
         public void Initialize(GraphicsDevice device, BasicEffect basicEffect)
@@ -83,6 +87,7 @@ namespace T4NET.Graphic
 
         public void Draw(Point origin, float scale)
         {
+            // Grid
             m_device.VertexDeclaration = m_vertexDeclaration;
             m_device.Vertices[0].SetSource(m_vertexBuffer, 0, VertexPositionColor.SizeInBytes);
             m_basicEffect.World = Matrix.CreateScale(scale)*Matrix.CreateTranslation(origin.X, origin.Y, 0.0f);
@@ -95,6 +100,7 @@ namespace T4NET.Graphic
             }
             m_basicEffect.End();
 
+            // Blocks
             m_spriteBatch.Begin();
             var scaledBlockSize = (int) (BLOCK_SIZE*scale-1);
             for (int i = 0; i < m_board.HSize; i++)
@@ -122,6 +128,29 @@ namespace T4NET.Graphic
                     m_spriteBatch.Draw(s_blockTextures[m_board.CurrentPiece.Color],
                                        new Rectangle(drawX, drawY, scaledBlockSize, scaledBlockSize), Color.White);
                 }
+            }
+            if (m_board.NextPiece != null)
+            {
+                foreach (Point b in m_board.NextPiece.CurrentBlocks)
+                {
+                    int x = m_board.NextPiece.X + b.X;
+                    int y = m_board.NextPiece.Y + b.Y;
+                    var drawX = (int)(origin.X + 1 + BLOCK_SIZE * (x+ m_board.HSize-2) * scale);
+                    var drawY = (int)(origin.Y + 1 + BLOCK_SIZE * (y+1) * scale);
+                    m_spriteBatch.Draw(s_blockTextures[m_board.NextPiece.Color],
+                                       new Rectangle(drawX, drawY, scaledBlockSize, scaledBlockSize), Color.White);
+                }
+            }
+            int bonusX = m_board.HSize + 1;
+            int bonusY = m_board.VSize - 1;
+            var bonuses = m_board.CollectedBonuses.ToArray();
+            for (int i = bonuses.Length - 1; i >= 0; i--)
+            {
+                var drawX = (int)(origin.X + 1 + BLOCK_SIZE * bonusX * scale);
+                var drawY = (int)(origin.Y + 1 + BLOCK_SIZE * bonusY * scale);
+                m_spriteBatch.Draw(s_blockTextures[bonuses[i]],
+                                   new Rectangle(drawX, drawY, scaledBlockSize, scaledBlockSize), Color.White);
+                bonusY--;
             }
             m_spriteBatch.End();
         }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -33,10 +32,19 @@ namespace T4NET.Graphic
             get { return 159; }  // TODO rendre ça dépendant de la résolution
         }
 
-        public void Initialize(GraphicsDevice device, BasicEffect basicEffect)
+        public void Initialize(GraphicsDevice device)
         {
             m_device = device;
-            m_basicEffect = basicEffect;
+            m_basicEffect = new BasicEffect(device, null)
+                {
+                VertexColorEnabled = true,
+                World = Matrix.CreateTranslation(100.0f, 50.0f, 0.0f),
+                View = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up),
+                Projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width,
+                                device.Viewport.Height, 0,
+                                1.0f,
+                                1000.0f)
+                };
 
             // Init grid
             int pixelHeight = CharacterHeight*16 + 8;

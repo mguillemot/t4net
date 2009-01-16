@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace T4NET.Menu
+namespace T4NET.Screens
 {
     public abstract class Screen
     {
@@ -17,7 +17,7 @@ namespace T4NET.Menu
             m_device = device;
         }
 
-        public abstract void Update(GameTime time);
+        public abstract void Update(GameTime time, GameServiceContainer services);
 
         public abstract void Draw();
     }

@@ -2,38 +2,38 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 
-namespace T4NET
+namespace T4NET.Controls
 {
     public class ControlsState
     {
         private static readonly Buttons[] ALL_BUTTONS = new[]
-                                                   {
-                                                       Buttons.A,
-                                                       Buttons.B,
-                                                       Buttons.Back,
-                                                       Buttons.BigButton,
-                                                       Buttons.DPadDown,
-                                                       Buttons.DPadLeft,
-                                                       Buttons.DPadRight,
-                                                       Buttons.DPadUp,
-                                                       Buttons.LeftShoulder,
-                                                       Buttons.LeftStick,
-                                                       Buttons.LeftThumbstickDown,
-                                                       Buttons.LeftThumbstickLeft,
-                                                       Buttons.LeftThumbstickRight,
-                                                       Buttons.LeftThumbstickUp,
-                                                       Buttons.LeftTrigger,
-                                                       Buttons.RightShoulder,
-                                                       Buttons.RightStick,
-                                                       Buttons.RightThumbstickDown,
-                                                       Buttons.RightThumbstickLeft,
-                                                       Buttons.RightThumbstickRight,
-                                                       Buttons.RightThumbstickUp,
-                                                       Buttons.RightTrigger,
-                                                       Buttons.Start,
-                                                       Buttons.X,
-                                                       Buttons.Y
-                                                   };
+                                                            {
+                                                                Buttons.A,
+                                                                Buttons.B,
+                                                                Buttons.Back,
+                                                                Buttons.BigButton,
+                                                                Buttons.DPadDown,
+                                                                Buttons.DPadLeft,
+                                                                Buttons.DPadRight,
+                                                                Buttons.DPadUp,
+                                                                Buttons.LeftShoulder,
+                                                                Buttons.LeftStick,
+                                                                Buttons.LeftThumbstickDown,
+                                                                Buttons.LeftThumbstickLeft,
+                                                                Buttons.LeftThumbstickRight,
+                                                                Buttons.LeftThumbstickUp,
+                                                                Buttons.LeftTrigger,
+                                                                Buttons.RightShoulder,
+                                                                Buttons.RightStick,
+                                                                Buttons.RightThumbstickDown,
+                                                                Buttons.RightThumbstickLeft,
+                                                                Buttons.RightThumbstickRight,
+                                                                Buttons.RightThumbstickUp,
+                                                                Buttons.RightTrigger,
+                                                                Buttons.Start,
+                                                                Buttons.X,
+                                                                Buttons.Y
+                                                            };
 
         private readonly List<Buttons> m_pressedButtons = new List<Buttons>();
 

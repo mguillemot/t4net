@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace T4NET.Menu
+namespace T4NET.Menus
 {
     public class MenuEntrySelectedEventArgs : EventArgs
     {
@@ -20,22 +20,22 @@ namespace T4NET.Menu
 
     public class Menu
     {
-        private readonly List<Entry> m_entries = new List<Entry>();
+        private readonly List<MenuEntry> m_entries = new List<MenuEntry>();
         private int m_selectedEntry;
 
         public event EventHandler<MenuEntrySelectedEventArgs> OnEntryChange;
 
-        public List<Entry> Entries
+        public List<MenuEntry> Entries
         {
             get { return m_entries; }
         }
 
-        public Entry SelectedEntry
+        public MenuEntry SelectedEntry
         {
             get { return m_entries[m_selectedEntry]; }
         }
 
-        public void AddEntry(Entry entry)
+        public void AddEntry(MenuEntry entry)
         {
             m_entries.Add(entry);
         }
@@ -56,24 +56,6 @@ namespace T4NET.Menu
             {
                 OnEntryChange(this, new MenuEntrySelectedEventArgs(this));
             }
-        }
-    }
-
-    public class Entry
-    {
-        private string m_title;
-        private Screen m_nextScreen;
-
-        public string Title
-        {
-            get { return m_title; }
-            set { m_title = value; }
-        }
-
-        public Screen NextScreen
-        {
-            get { return m_nextScreen; }
-            set { m_nextScreen = value; }
         }
     }
 }

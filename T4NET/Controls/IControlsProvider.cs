@@ -1,4 +1,6 @@
-﻿namespace T4NET
+﻿using T4NET.Controls;
+
+namespace T4NET.Controls
 {
     public interface IControlsProvider
     {

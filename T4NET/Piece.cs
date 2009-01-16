@@ -5,13 +5,13 @@ using Microsoft.Xna.Framework;
 
 namespace T4NET
 {
-    public class Piece
+    public class Piece : ICloneable
     {
         private static readonly Random s_pieceGenerator = new Random();
         
         private readonly List<Point>[] m_blocks = new List<Point>[4];
         private readonly PieceType m_type;
-        private readonly int m_color;
+        private readonly Block m_color;
         private int m_currentRotation;
         private int m_x;
         private int m_y;
@@ -25,6 +25,11 @@ namespace T4NET
             S = 5,
             Z = 6,
             T = 7
+        }
+
+        public object Clone()
+        {
+            return new Piece(m_type) { X = X, Y = Y, m_currentRotation = m_currentRotation };
         }
 
         public static Piece RandomPiece()
@@ -69,7 +74,7 @@ namespace T4NET
                                       };
                     m_x = 4;
                     m_y = 2;
-                    m_color = 5; // red
+                    m_color = Block.RED;
                     break;
                 case PieceType.O:
                     m_blocks[0] = new List<Point>
@@ -84,7 +89,7 @@ namespace T4NET
                     m_blocks[3] = m_blocks[0];
                     m_x = 4;
                     m_y = 1;
-                    m_color = 7; // yellow
+                    m_color = Block.YELLOW;
                     break;
                 case PieceType.L:
                     m_blocks[0] = new List<Point>
@@ -117,7 +122,7 @@ namespace T4NET
                                       };
                     m_x = 5;
                     m_y = 1;
-                    m_color = 4; // orange
+                    m_color = Block.ORANGE;
                     break;
                 case PieceType.J:
                     m_blocks[0] = new List<Point>
@@ -150,7 +155,7 @@ namespace T4NET
                                       };
                     m_x = 4;
                     m_y = 1;
-                    m_color = 1; // dark blue
+                    m_color = Block.DARK_BLUE;
                     break;
                 case PieceType.S:
                     m_blocks[0] = new List<Point>
@@ -171,7 +176,7 @@ namespace T4NET
                     m_blocks[3] = m_blocks[1];
                     m_x = 4;
                     m_y = 1;
-                    m_color = 6; // violet
+                    m_color = Block.VIOLET;
                     break;
                 case PieceType.Z:
                     m_blocks[0] = new List<Point>
@@ -192,7 +197,7 @@ namespace T4NET
                     m_blocks[3] = m_blocks[1];
                     m_x = 4;
                     m_y = 1;
-                    m_color = 2; // green
+                    m_color = Block.GREEN;
                     break;
                 case PieceType.T:
                     m_blocks[0] = new List<Point>
@@ -225,7 +230,7 @@ namespace T4NET
                                       };
                     m_x = 4;
                     m_y = 1;
-                    m_color = 3; // light blue
+                    m_color = Block.LIGHT_BLUE;
                     break;
                 default:
                     throw new InvalidDataException("Piece type can not be " + type);
@@ -244,7 +249,7 @@ namespace T4NET
             set { m_y = value; }
         }
 
-        public int Color
+        public Block Color
         {
             get { return m_color; }
         }
