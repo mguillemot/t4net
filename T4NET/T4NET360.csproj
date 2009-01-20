@@ -57,11 +57,26 @@
     <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Both|Xbox 360' ">
+    <OutputPath>bin\Xbox 360\Both\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AIs\AiComponent.cs" />
     <Compile Include="AIs\BasicAi.cs" />
-    <Compile Include="Block.cs" />
-    <Compile Include="Blocks.cs" />
-    <Compile Include="Board.cs" />
+    <Compile Include="Controls\MenuControl.cs" />
+    <Compile Include="Leaderboards\Leaderboard.cs" />
+    <Compile Include="Leaderboards\LeaderboardEntry.cs" />
+    <Compile Include="LocalPlayers\LocalPlayersComponent.cs" />
+    <Compile Include="Network\IMessageDispatcher.cs" />
+    <Compile Include="Network\IMessageProcessor.cs" />
+    <Compile Include="Network\MessageDispatcherComponent.cs" />
+    <Compile Include="Network\Messages\Gameplay\BoadFullContentMessage.cs" />
+    <Compile Include="Network\NetworkMessage.cs" />
+    <Compile Include="Network\NetworkMessageDecoder.cs" />
+    <Compile Include="Network\Protocol.cs" />
+    <Compile Include="ZeGame\Block.cs" />
+    <Compile Include="ZeGame\Blocks.cs" />
+    <Compile Include="ZeGame\Board.cs" />
     <Compile Include="Console.cs" />
     <Compile Include="ConsoleComponent.cs" />
     <Compile Include="Controls\BoardControl.cs" />
@@ -78,24 +93,21 @@
     <Compile Include="Menus\Menu.cs" />
     <Compile Include="Menus\MenuEntry.cs" />
     <Compile Include="Network\Message.cs" />
-    <Compile Include="Network\MessageDecoder.cs" />
     <Compile Include="Network\Messages\Gameplay\PlayerIncorporatePieceMessage.cs" />
     <Compile Include="Network\Messages\Lobby\ChatContentMessage.cs" />
     <Compile Include="Network\NetworkComponent.cs" />
-    <Compile Include="Network\Protocol.cs" />
-    <Compile Include="Piece.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
-    <Compile Include="Screens\ScreenComponent.cs" />
-    <Compile Include="Screens\TitleScreen.cs" />
     <Compile Include="T4Net.cs" />
+    <Compile Include="ZeGame\GameSession.cs" />
+    <Compile Include="ZeGame\GameSessionComponent.cs" />
+    <Compile Include="ZeGame\Piece.cs" />
+    <Compile Include="ZeGame\Player.cs" />
+    <Compile Include="ZeGame\Team.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Controls\BonusCBlock.png" />
-    <Content Include="Controls\BonusNBlock.png" />
-    <Content Include="Controls\MalusABlock.png" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>

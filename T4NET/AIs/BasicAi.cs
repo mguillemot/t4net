@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using T4NET.ZeGame;
 
 namespace T4NET.AIs
 {
@@ -13,8 +13,11 @@ namespace T4NET.AIs
 
         public void DoNextMove()
         {
-            var hyp1 = BestEstimatedMove(m_board);
-            Apply(hyp1, m_board);
+            if (!m_board.IsGameOver)
+            {
+                Hypothesis hyp1 = BestEstimatedMove(m_board);
+                Apply(hyp1, m_board);
+            }
         }
 
         private static Hypothesis BestEstimatedMove(Board position)
@@ -22,9 +25,9 @@ namespace T4NET.AIs
             var bestHyp = new Hypothesis {Heuristic = double.MaxValue};
             for (int i = 0; i < position.HSize; i++)
             {
-                for (int r = 0; r < 2; r++) // TODO vérifier r<3
+                for (int r = 0; r < 3; r++)
                 {
-                    var hyp = new Hypothesis{Board = position, X = i, R = r};
+                    var hyp = new Hypothesis {Board = position, X = i, R = r};
                     ComputeHeuristic(hyp);
                     if (hyp.Heuristic < bestHyp.Heuristic)
                     {
@@ -50,7 +53,7 @@ namespace T4NET.AIs
 
         private static void ComputeHeuristic(Hypothesis hyp)
         {
-            var afterBoard = (Board)hyp.Board.Clone();
+            var afterBoard = (Board) hyp.Board.Clone();
             for (int i = 0; i < hyp.R; i++)
             {
                 afterBoard.RotateRight();
@@ -64,6 +67,7 @@ namespace T4NET.AIs
             {
                 afterBoard.InstantDrop();
                 afterBoard.Incorporate();
+                afterBoard.CheckCompleteLines();
                 hyp.Heuristic = EstimatePosition(afterBoard.Content);
             }
         }
@@ -74,42 +78,68 @@ namespace T4NET.AIs
             int HEIGHT = state[0].Length;
             double estimation = 0.0;
             int topmost = 0;
-            for (int j = HEIGHT - 1; j >= 1; j--)
+            for (int j = HEIGHT - 1; j >= 0; j--)
             {
                 bool completeLine = true;
                 for (int i = 0; i < WIDTH; i++)
                 {
                     Block current = state[i][j];
-                    Block top = state[i][j - 1];
-                    if (current == Block.EMPTY && top != Block.EMPTY)
-                    {
-                        // hole
-                        estimation += 1.0;
-                    }
-                    if (top != Block.EMPTY)
-                    {
-                        topmost = HEIGHT - j;
-                    }
                     if (current == Block.EMPTY)
                     {
                         completeLine = false;
                     }
+                    else
+                    {
+                        topmost = j;
+                    }
                 }
-                if (completeLine)
+                if (completeLine) // TODO ne peut pas arriver puisqu'on vire les lignes juste au dessus
                 {
                     estimation -= 10;
                 }
             }
-            estimation += topmost;
+            for (int i = 0; i < WIDTH; i++)
+            {
+                int nHoles = 0;
+                int nBlocks = 0;
+                int lastBlock = 0;
+                for (int j = HEIGHT - 1; j >= 0; j--)
+                {
+                    Block current = state[i][j];
+                    if (current == Block.EMPTY)
+                    {
+                        nHoles++;
+                    }
+                    else
+                    {
+                        lastBlock = j;
+                        nBlocks++;
+                    }
+                }
+                if (nBlocks > 0)
+                {
+                    nHoles -= lastBlock;
+                }
+                else
+                {
+                    nHoles = 0;
+                }
+                estimation += nHoles;
+            }
+            estimation += (HEIGHT - topmost)/2.0;
             return estimation;
         }
+
+        #region Nested type: Hypothesis
 
         private class Hypothesis
         {
             public Board Board;
-            public int X;
-            public int R;
             public double Heuristic;
+            public int R;
+            public int X;
         }
+
+        #endregion
     }
 }

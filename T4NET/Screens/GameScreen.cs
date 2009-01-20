@@ -1,10 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using T4NET.AIs;
 using T4NET.Controls;
 using T4NET.Graphic;
 using T4NET.Menus;
+using T4NET.ZeGame;
 
 namespace T4NET.Screens
 {
@@ -17,16 +19,23 @@ namespace T4NET.Screens
 
         private Board m_leftEnemyBoard;
         private BoardDisplay m_leftEnemyBoardDisplay;
-        private BasicAi m_leftAi;
+        private AiComponent m_leftAi;
         private Board m_rightEnemyBoard;
         private BoardDisplay m_rightEnemyBoardDisplay;
+        //private AiComponent m_rightAi;
 
         private Menu m_menu;
         private MenuDisplay m_menuDisplay;
+        private MenuControl m_menuControl;
 
-        public override void Initialize(GraphicsDevice device)
+        public GameScreen(Game game) 
+            : base(game)
         {
-            base.Initialize(device);
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
 
             m_board = new Board(10, 20);
             m_boardDisplay = new BoardDisplay(m_board);
@@ -35,9 +44,12 @@ namespace T4NET.Screens
             m_leftEnemyBoard = new Board(10, 20);
             m_leftEnemyBoard.SwitchToNextPiece();
             m_leftEnemyBoardDisplay = new BoardDisplay(m_leftEnemyBoard);
-            m_leftAi = new BasicAi(m_leftEnemyBoard);
+            m_leftAi = new AiComponent(Game, m_leftEnemyBoard);
+            Game.Components.Add(m_leftAi);
             m_rightEnemyBoard = new Board(10, 20);
             m_rightEnemyBoardDisplay = new BoardDisplay(m_rightEnemyBoard);
+            //m_rightAi = new AiComponent(Game, m_rightEnemyBoard);
+            //Game.Components.Add(m_rightAi);
 
             m_basicEffect = new BasicEffect(GraphicsDevice, null)
                                 {
@@ -54,34 +66,78 @@ namespace T4NET.Screens
             m_rightEnemyBoardDisplay.Initialize(GraphicsDevice, m_basicEffect);
 
             m_menu = new Menu();
-            m_menu.AddEntry(new MenuEntry {Title = "Pause game"});
-            m_menu.AddEntry(new MenuEntry {Title = "Resume game"});
+            m_menu.MenuClosed += OnCloseMenu;
+            var coucouEntry = new MenuEntry {Title = "Coucou !"};
+            coucouEntry.EntryActivated += OnCoucou;
+            m_menu.AddEntry(coucouEntry);
+            var backToGameEntry = new MenuEntry {Title = "Back to game"};
+            backToGameEntry.EntryActivated += OnCloseMenu;
+            m_menu.AddEntry(backToGameEntry);
             m_menu.AddEntry(new MenuEntry {Title = "Return to menu"});
             m_menuDisplay = new MenuDisplay(m_menu);
-            m_menuDisplay.Initialize(device);
+            m_menuDisplay.Initialize(Game.GraphicsDevice);
+            m_menuControl = new MenuControl(m_menu);
         }
 
-        public override void Update(GameTime time, GameServiceContainer services)
+        private void OnCloseMenu(object sender, EventArgs e)
         {
-            var controlsProvider = (IControlsProvider) services.GetService(typeof (IControlsProvider));
-            m_boardControl.Update(time, controlsProvider);
-            if (controlsProvider.CurrentState.PressedKeys.Contains(Keys.F1))
-            {
-                m_menuDisplay.Active = !m_menuDisplay.Active;
-            }
-            m_menuDisplay.Update(time, services);
+            m_menu.Active = false;
+        }
 
-            if (controlsProvider.CurrentState.PressedKeys.Contains(Keys.P))
+        private static void OnCoucou(object sender, EventArgs e)
+        {
+            Console.WriteLine("Coucou!!");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
             {
-                m_leftAi.DoNextMove();
+                Game.Components.Remove(m_leftAi);
+                //Game.Components.Remove(m_rightAi);
             }
         }
 
-        public override void Draw()
+        public override void Update(GameTime gameTime)
         {
-            m_boardDisplay.Draw(new Point(550, 60), 1f);
-            m_leftEnemyBoardDisplay.Draw(new Point(150, 100), 0.8f);
-            m_rightEnemyBoardDisplay.Draw(new Point(1000, 100), 0.8f);
+            base.Update(gameTime);
+            var controlsProvider = (IControlsProvider)Game.Services.GetService(typeof(IControlsProvider));
+            if (controlsProvider.CurrentConfig.JustPressed(Function.GAME_MENU, controlsProvider.CurrentState))
+            {
+                m_menu.Active = !m_menu.Active;
+            }
+
+            if (m_menu.Active)
+            {
+                m_menuControl.Update(gameTime, controlsProvider);
+            }
+            else
+            {
+                m_boardControl.Update(gameTime, controlsProvider);
+                if (controlsProvider.CurrentConfig.JustPressed(Function.GAME_BONUS_LEFT, controlsProvider.CurrentState))
+                {
+                    if (m_leftEnemyBoard.ApplyBonus(m_board.ActiveBonus))
+                    {
+                        m_board.CollectedBonuses.Pop();
+                    }
+                }
+                if (controlsProvider.CurrentConfig.JustPressed(Function.GAME_BONUS_RIGHT, controlsProvider.CurrentState))
+                {
+                    if (m_rightEnemyBoard.ApplyBonus(m_board.ActiveBonus))
+                    {
+                        m_board.CollectedBonuses.Pop();
+                    }
+                }
+            }
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+            m_boardDisplay.Draw(new Point(530, 140), 1f);
+            m_leftEnemyBoardDisplay.Draw(new Point(100, 180), 0.8f);
+            m_rightEnemyBoardDisplay.Draw(new Point(1000, 180), 0.8f);
             m_menuDisplay.Draw();
         }
     }

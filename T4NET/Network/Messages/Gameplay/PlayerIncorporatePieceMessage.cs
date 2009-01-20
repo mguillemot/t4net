@@ -1,14 +1,15 @@
 ﻿using Microsoft.Xna.Framework.Net;
+using T4NET.ZeGame;
 
 namespace T4NET.Network.Messages.Gameplay
 {
-    public class PlayerIncorporatePieceMessage : Message
+    public class PlayerIncorporatePieceMessage : NetworkMessage
     {
         public Piece.PieceType Type;
         public sbyte X;
         public sbyte Y;
 
-        public override ushort MessageId
+        public override Protocol MessageId
         {
             get { return Protocol.PLAYER_INCORPORATE_PIECE; }
         }

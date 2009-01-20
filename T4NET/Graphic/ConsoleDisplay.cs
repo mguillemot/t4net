@@ -15,21 +15,24 @@ namespace T4NET.Graphic
         private VertexBuffer m_vertexBuffer;
         private VertexDeclaration m_vertexDeclaration;
 
-        public ConsoleDisplay()
-        {
-            CharacterHeight = 12;
-        }
-
         public static void LoadContent(ContentManager content)
         {
             s_systemFont = content.Load<SpriteFont>("SystemFont");
         }
 
-        public int CharacterHeight { get; set; }
+        public int CharacterHeight
+        {
+            get { return 44; } // TODO rendre ça dépendant de la résolution
+        }
 
         public int CharacterWidth
         {
-            get { return 159; }  // TODO rendre ça dépendant de la résolution
+            get { return 157; }  // TODO rendre ça dépendant de la résolution
+        }
+
+        public int ConsoleHeight
+        {
+            get { return 720; } // TODO rendre ça paramétrable
         }
 
         public void Initialize(GraphicsDevice device)
@@ -38,7 +41,7 @@ namespace T4NET.Graphic
             m_basicEffect = new BasicEffect(device, null)
                 {
                 VertexColorEnabled = true,
-                World = Matrix.CreateTranslation(100.0f, 50.0f, 0.0f),
+                World = Matrix.Identity,
                 View = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up),
                 Projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width,
                                 device.Viewport.Height, 0,
@@ -46,21 +49,30 @@ namespace T4NET.Graphic
                                 1000.0f)
                 };
 
-            // Init grid
-            int pixelHeight = CharacterHeight*16 + 8;
-            m_grid = new VertexPositionColor[4];
-            m_grid[0].Position = new Vector3(0, device.Viewport.Height - pixelHeight, 0);
+            // Grid: console background
+            m_grid = new VertexPositionColor[9];
+            m_grid[0].Position = new Vector3(0, device.Viewport.Height - ConsoleHeight, 0);
             m_grid[0].Color = Color.Black;
-            m_grid[0].Color.A = 200;
-            m_grid[1].Position = new Vector3(device.Viewport.Width, device.Viewport.Height - pixelHeight, 0);
+            m_grid[0].Color.A = 150;
+            m_grid[1].Position = new Vector3(device.Viewport.Width, device.Viewport.Height - ConsoleHeight, 0);
             m_grid[1].Color = Color.Black;
-            m_grid[1].Color.A = 200;
+            m_grid[1].Color.A = 150;
             m_grid[2].Position = new Vector3(device.Viewport.Width, device.Viewport.Height, 0);
             m_grid[2].Color = Color.Black;
-            m_grid[2].Color.A = 200;
+            m_grid[2].Color.A = 150;
             m_grid[3].Position = new Vector3(0, device.Viewport.Height, 0);
             m_grid[3].Color = Color.Black;
-            m_grid[3].Color.A = 200;
+            m_grid[3].Color.A = 150;
+            // Grid: tilesafe area
+            m_grid[4].Position = new Vector3(device.Viewport.TitleSafeArea.X, device.Viewport.TitleSafeArea.Y, 0);
+            m_grid[4].Color = Color.Red;
+            m_grid[5].Position = new Vector3(device.Viewport.TitleSafeArea.X + device.Viewport.TitleSafeArea.Width, device.Viewport.TitleSafeArea.Y, 0);
+            m_grid[5].Color = Color.Red;
+            m_grid[6].Position = new Vector3(device.Viewport.TitleSafeArea.X + device.Viewport.TitleSafeArea.Width, device.Viewport.TitleSafeArea.Y + device.Viewport.TitleSafeArea.Height, 0);
+            m_grid[6].Color = Color.Red;
+            m_grid[7].Position = new Vector3(device.Viewport.TitleSafeArea.X, device.Viewport.TitleSafeArea.Y + device.Viewport.TitleSafeArea.Height, 0);
+            m_grid[7].Color = Color.Red;
+            m_grid[8] = m_grid[4];
 
             // Init vertex buffer
             m_vertexBuffer = new VertexBuffer(device, VertexPositionColor.SizeInBytes*m_grid.Length,
@@ -77,20 +89,20 @@ namespace T4NET.Graphic
             // Background
             m_device.VertexDeclaration = m_vertexDeclaration;
             m_device.Vertices[0].SetSource(m_vertexBuffer, 0, VertexPositionColor.SizeInBytes);
-            m_basicEffect.World = Matrix.Identity;
             m_device.RenderState.CullMode = CullMode.None;
             m_basicEffect.Begin();
             foreach (EffectPass pass in m_basicEffect.CurrentTechnique.Passes)
             {
                 pass.Begin();
                 m_device.DrawPrimitives(PrimitiveType.TriangleFan, 0, 2);
+                m_device.DrawPrimitives(PrimitiveType.LineStrip, 4, 4);
                 pass.End();
             }
             m_basicEffect.End();
 
             // Text
             m_spriteBatch.Begin();
-            m_spriteBatch.DrawString(s_systemFont, Console.GetFormattedText(CharacterHeight), new Vector2(3, m_device.Viewport.Height - (CharacterHeight * 16 + 8)), Color.LightGreen);
+            m_spriteBatch.DrawString(s_systemFont, Console.GetFormattedText(CharacterHeight), new Vector2(16, m_device.Viewport.Height - ConsoleHeight + 3), Color.LightGreen);
             m_spriteBatch.End();
         }
     }

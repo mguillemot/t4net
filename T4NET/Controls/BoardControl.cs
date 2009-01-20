@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using T4NET.ZeGame;
 
 namespace T4NET.Controls
 {
@@ -29,9 +31,18 @@ namespace T4NET.Controls
             var config = controlsProvider.CurrentConfig;
             var state = controlsProvider.CurrentState;
 
-            if (config.JustPressed(Function.REGEN_PIECE, state) || m_board.CurrentPiece == null)
+            if (config.JustPressed(Function.CHEAT_RESET_BOARD, state))
             {
+                m_board.Clear();
                 m_board.SwitchToNextPiece();
+            }
+
+            if (config.JustPressed(Function.GAME_BONUS_SELF, state))
+            {
+                if (m_board.ApplyBonus(m_board.ActiveBonus))
+                {
+                    m_board.CollectedBonuses.Pop();
+                }
             }
             
             switch (m_currentFunction)
@@ -39,12 +50,10 @@ namespace T4NET.Controls
                 case BoardFunction.PIECE_LOCKING:
                     if (timeSinceStart > .3)
                     {
-                        m_board.Incorporate();
-                        var completeLines = m_board.CheckCompleteLines();
-                        if (completeLines.Count > 0)
+                        var completeLines = m_board.Incorporate();
+                        if (completeLines > 0)
                         {
                             // If lines are found
-                            m_board.TransformRandomBlocksToSpecial(completeLines.Count, completeLines);
                             m_currentFunction = BoardFunction.LINE_VANISHING;
                             m_currentFunctionStart = m_totalSeconds;
                         }
@@ -67,78 +76,78 @@ namespace T4NET.Controls
                     }
                     break;
                 case BoardFunction.NONE:
-                    if (config.IsPressed(Function.LEFT, state))
+                    if (config.IsPressed(Function.GAME_LEFT, state))
                     {
-                        m_currentKeyFunction = Function.LEFT;
+                        m_currentKeyFunction = Function.GAME_LEFT;
                         m_currentFunctionStart = -1;
                     } 
-                    else if (config.IsPressed(Function.RIGHT, state))
+                    else if (config.IsPressed(Function.GAME_RIGHT, state))
                     {
-                        m_currentKeyFunction = Function.RIGHT;
+                        m_currentKeyFunction = Function.GAME_RIGHT;
                         m_currentFunctionStart = -1;
                     }
-                    else if (config.IsPressed(Function.UP, state))
+                    else if (config.IsPressed(Function.GAME_UP, state))
                     {
-                        m_currentKeyFunction = Function.UP;
+                        m_currentKeyFunction = Function.GAME_UP;
                         m_currentFunctionStart = -1;
                     }
-                    else if (config.IsPressed(Function.DOWN, state))
+                    else if (config.IsPressed(Function.GAME_DOWN, state))
                     {
-                        m_currentKeyFunction = Function.DOWN;
+                        m_currentKeyFunction = Function.GAME_DOWN;
                         m_currentFunctionStart = -1;
                     }
                     m_currentFunction = BoardFunction.KEY_FUNCTION;
                     break;
                 case BoardFunction.KEY_FUNCTION:
-                    if (config.JustPressed(Function.RIGHT, state))
+                    if (config.JustPressed(Function.GAME_RIGHT, state))
                     {
-                        m_currentKeyFunction = Function.RIGHT;
+                        m_currentKeyFunction = Function.GAME_RIGHT;
                         m_currentFunctionStart = m_totalSeconds;
                         MoveRight();
                     }
-                    else if (config.JustPressed(Function.LEFT, state))
+                    else if (config.JustPressed(Function.GAME_LEFT, state))
                     {
-                        m_currentKeyFunction = Function.LEFT;
+                        m_currentKeyFunction = Function.GAME_LEFT;
                         m_currentFunctionStart = m_totalSeconds;
                         MoveLeft();
                     }
-                    else if (config.JustPressed(Function.DOWN, state))
+                    else if (config.JustPressed(Function.GAME_DOWN, state))
                     {
-                        m_currentKeyFunction = Function.DOWN;
+                        m_currentKeyFunction = Function.GAME_DOWN;
                         m_currentFunctionStart = m_totalSeconds;
                         MoveDown();
                     }
-                    else if (config.JustPressed(Function.UP, state))
+                    else if (config.JustPressed(Function.GAME_UP, state))
                     {
-                        m_currentKeyFunction = Function.UP;
+                        m_currentKeyFunction = Function.GAME_UP;
                         m_currentFunctionStart = m_totalSeconds;
                         MoveUp();
                     }
-                    else if (config.JustPressed(Function.ROTATE_R, state))
+                    else if (config.JustPressed(Function.GAME_ROTATE_R, state))
                     {
                         m_board.RotateRight();
                     }
-                    else if (config.JustPressed(Function.ROTATE_L, state))
+                    else if (config.JustPressed(Function.GAME_ROTATE_L, state))
                     {
                         m_board.RotateLeft();
                     }
-                    else if (m_currentKeyFunction == Function.RIGHT && timeSinceStart > 0.3 && timeSinceSub > 0.05 &&
-                             config.IsPressed(Function.RIGHT, state))
+                    else if (m_currentKeyFunction == Function.GAME_RIGHT && timeSinceStart > 0.3 && timeSinceSub > 0.05 &&
+                             config.IsPressed(Function.GAME_RIGHT, state))
                     {
                         MoveRight();
                     }
-                    else if (m_currentKeyFunction == Function.LEFT && timeSinceStart > 0.3 && timeSinceSub > 0.05 &&
-                             config.IsPressed(Function.LEFT, state))
+                    else if (m_currentKeyFunction == Function.GAME_LEFT && timeSinceStart > 0.3 && timeSinceSub > 0.05 &&
+                             config.IsPressed(Function.GAME_LEFT, state))
                     {
                         MoveLeft();
                     }
-                    else if (m_currentKeyFunction == Function.DOWN && timeSinceSub > 0.02 &&
-                             config.IsPressed(Function.DOWN, state))
+                    else if (m_currentKeyFunction == Function.GAME_DOWN && timeSinceSub > 0.02 &&
+                             config.IsPressed(Function.GAME_DOWN, state))
                     {
                         MoveDown();
                     }
-                    else if (m_currentKeyFunction == Function.UP &&
-                             config.IsPressed(Function.UP, state))
+                    else if (m_currentKeyFunction == Function.GAME_UP &&
+                             config.IsPressed(Function.GAME_UP, state))
                     {
                         MoveUp();
                     }

@@ -1,4 +1,4 @@
-﻿namespace T4NET
+﻿namespace T4NET.ZeGame
 {
     public enum Block
     {

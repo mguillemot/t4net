@@ -1,12 +1,16 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework.Storage;
 using T4NET.Controls;
 using T4NET.Graphic;
+using T4NET.Leaderboards;
+using T4NET.LocalPlayers;
 using T4NET.Network;
 using T4NET.Screens;
+using T4NET.ZeGame;
 
 namespace T4NET
 {
@@ -17,49 +21,48 @@ namespace T4NET
     {
         public T4Net()
         {
-            //Components.Add(new GamerServicesComponent(this));
             Components.Add(new ControlsComponent(this));
-            Components.Add(new ConsoleComponent(this));
-            Components.Add(new ScreenComponent(this));
+            Components.Add(new LocalPlayersComponent(this));
+            Components.Add(new GamerServicesComponent(this));
             Components.Add(new NetworkComponent(this));
+            Components.Add(new MessageDispatcherComponent(this));
+            Components.Add(new GameSessionComponent(this));
+            Components.Add(new GameScreen(this));
+            Components.Add(new ConsoleComponent(this));
 
-            SignedInGamer.SignedIn += GamerSignedIn;
-            SignedInGamer.SignedOut += GamerSignedOut;
-
-            new GraphicsDeviceManager(this)
-               {
-                   PreferredBackBufferWidth = 1280,
-                   PreferredBackBufferHeight = 720
-               };
-            //graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
+            var graphics = new GraphicsDeviceManager(this)
+                               {
+                                   PreferredBackBufferWidth = 1280,
+                                   PreferredBackBufferHeight = 720
+                               };
+            graphics.PreparingDeviceSettings += graphics_PreparingDeviceSettings;
             Content.RootDirectory = "Content";
         }
 
-        private void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
+        public bool HasGamerService
         {
-            foreach (var displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
+            get
             {
-                if (displayMode.Width == 1280 && displayMode.Height == 720)
+                foreach (IGameComponent component in Components)
                 {
-                    e.GraphicsDeviceInformation.PresentationParameters.BackBufferFormat = displayMode.Format;
-                    e.GraphicsDeviceInformation.PresentationParameters.BackBufferHeight = displayMode.Height;
-                    e.GraphicsDeviceInformation.PresentationParameters.BackBufferWidth = displayMode.Width;
-                    //e.GraphicsDeviceInformation.PresentationParameters.FullScreenRefreshRateInHz = displayMode.RefreshRate;
-                    //e.GraphicsDeviceInformation.PresentationParameters.IsFullScreen = true;
-                    return;
+                    if (component is GamerServicesComponent)
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-
         }
 
-        private static void GamerSignedIn(object sender, SignedInEventArgs e)
+        private static void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
         {
-            Console.WriteLine(e.Gamer.Gamertag + " signed in");
-        }
-
-        private static void GamerSignedOut(object sender, SignedOutEventArgs e)
-        {
-            Console.WriteLine(e.Gamer.Gamertag + " signed out");
+            /*foreach (var displayMode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
+            {
+                Console.WriteLine("Possible resolution: {0}x{1} @ {2} Hz",
+                                         displayMode.Width,
+                                         displayMode.Height,
+                                         displayMode.RefreshRate);
+            }*/
         }
 
         /// <summary>
@@ -71,7 +74,38 @@ namespace T4NET
         protected override void Initialize()
         {
             base.Initialize();
-            Console.WriteLine("T4NET initialized...");
+            Console.WriteLine("T4NET initialized...\nViewport=({0}:{1} {2}x{3})", GraphicsDevice.Viewport.X,
+                              GraphicsDevice.Viewport.Y,
+                              GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            Console.WriteLine("Tile-safe area: " +
+                              GraphicsDevice.Viewport.TitleSafeArea.ToString().Replace('{', '[').Replace('}', ']'));
+
+            if (HasGamerService)
+            {
+                Guide.BeginShowStorageDeviceSelector(OnDeviceGot, null);
+            }
+        }
+
+        private static void OnDeviceGot(IAsyncResult result)
+        {
+            StorageDevice device = Guide.EndShowStorageDeviceSelector(result);
+            if (device.IsConnected)
+            {
+                var leaderboard = new Leaderboard();
+                leaderboard.Entries.Add(new LeaderboardEntry
+                                            {
+                                                Date = DateTime.Now.Ticks,
+                                                Distance = 42,
+                                                GamerTag = "Toto",
+                                                Experience = 42000000
+                                            });
+                leaderboard.Save(device);
+                System.Console.WriteLine("Saved");
+            }
+            else
+            {
+                System.Console.WriteLine("Save KO");
+            }
         }
 
         /// <summary>
@@ -92,21 +126,6 @@ namespace T4NET
         {
         }
 
-        public bool HasGamerService
-        {
-            get
-            {
-                foreach (var component in Components)
-                {
-                    if (component is GamerServicesComponent)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
-
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -115,14 +134,10 @@ namespace T4NET
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            var keyboardState = Keyboard.GetState(PlayerIndex.One);
-            if (keyboardState.IsKeyDown(Keys.Escape) || GamePad.GetState(0).IsButtonDown(Buttons.Back))
+            KeyboardState keyboardState = Keyboard.GetState(PlayerIndex.One);
+            if (keyboardState.IsKeyDown(Keys.Escape))
             {
                 Exit();
-            }
-            if (HasGamerService && !Guide.IsVisible && keyboardState.IsKeyDown(Keys.F12))
-            {
-                Guide.ShowSignIn(1, false);
             }
 
             base.Update(gameTime);

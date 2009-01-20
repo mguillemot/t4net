@@ -1,57 +1,92 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Net;
 using T4NET.Controls;
+using T4NET.Network.Messages.Lobby;
 
 namespace T4NET.Network
 {
     public class NetworkComponent : GameComponent
     {
-        private bool m_active;
+        private readonly NetworkMessageDecoder m_decoder = new NetworkMessageDecoder();
         private NetworkSession m_networkSession;
 
-        public NetworkComponent(Game game) 
+        public NetworkComponent(Game game)
             : base(game)
         {
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-            m_active = ((T4Net) Game).HasGamerService;
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             var controlsProvider = (IControlsProvider) Game.Services.GetService(typeof (IControlsProvider));
-            if (m_active && m_networkSession == null && (controlsProvider.CurrentState.PressedKeys.Contains(Keys.F10) || controlsProvider.CurrentState.PressedButtons.Contains(Buttons.Start)))
+            if (controlsProvider.CurrentConfig.JustPressed(Function.DEBUG_CREATE_SESSION, controlsProvider.CurrentState))
             {
-                m_networkSession = NetworkSession.Create(NetworkSessionType.SystemLink, 1, 8, 2, new NetworkSessionProperties());
+                if (m_networkSession != null)
+                {
+                    m_networkSession.Dispose();
+                    Console.WriteLine("Left session " + m_networkSession.Host.Gamertag);
+                    m_networkSession = null;
+                }
+                m_networkSession = NetworkSession.Create(NetworkSessionType.SystemLink, 1, 8, 2,
+                                                         new NetworkSessionProperties());
                 Console.WriteLine("Session " + m_networkSession.Host.Gamertag + " created");
                 m_networkSession.AllowJoinInProgress = true;
                 m_networkSession.GamerJoined += OnGamerJoined;
             }
-            if (m_active && (controlsProvider.CurrentState.PressedKeys.Contains(Keys.F11) || controlsProvider.CurrentState.PressedButtons.Contains(Buttons.LeftShoulder)))
+            if (controlsProvider.CurrentConfig.JustPressed(Function.DEBUG_JOIN_SESSION, controlsProvider.CurrentState))
             {
-                var sessions = NetworkSession.Find(NetworkSessionType.SystemLink, 1, new NetworkSessionProperties());
-                foreach (var session in sessions)
+                if (m_networkSession != null)
                 {
-                    Console.WriteLine("======= " + session.HostGamertag + " has " + session.CurrentGamerCount);
+                    var host = m_networkSession.Host.Gamertag;
+                    m_networkSession.Dispose();
+                    Console.WriteLine("Left session " + host);
+                    m_networkSession = null;
                 }
-                Console.WriteLine("Enumerate sessions done");
+                AvailableNetworkSessionCollection sessions = NetworkSession.Find(NetworkSessionType.SystemLink, 1,
+                                                                                 new NetworkSessionProperties());
+                Console.WriteLine("Enumerate sessions:");
+                foreach (AvailableNetworkSession session in sessions)
+                {
+                    Console.WriteLine("> " + session.HostGamertag + " (" + session.CurrentGamerCount + " players)");
+                    Console.WriteLine("~");
+                }
+                if (sessions.Count > 0)
+                {
+                    m_networkSession = NetworkSession.Join(sessions[0]);
+                    Console.WriteLine("Joined session " + m_networkSession.Host.Gamertag);
+                }
+            }
+            if (m_networkSession != null &&
+                controlsProvider.CurrentConfig.JustPressed(Function.GAME_BONUS_SELF, controlsProvider.CurrentState))
+            {
+                var chat = new ChatContentMessage {Content = "coucou!!!"};
+                var writer = new PacketWriter();
+                chat.Encode(writer);
+                m_networkSession.LocalGamers[0].SendData(writer, SendDataOptions.None); // TODO gérer plusieurs local gamers
+                Console.WriteLine("Sent to all {0} remote gamers in the session!", m_networkSession.RemoteGamers.Count);
             }
 
             if (m_networkSession != null)
             {
+                var messageDispatcher = (IMessageDispatcher) Game.Services.GetService(typeof (IMessageDispatcher));
                 m_networkSession.Update();
-                System.Console.WriteLine(m_networkSession.AllGamers.Count);
+                foreach (LocalNetworkGamer gamer in m_networkSession.LocalGamers)
+                {
+                    if (gamer.IsDataAvailable)
+                    {
+                        NetworkMessage message = m_decoder.Decode(gamer);
+                        if (message != null)
+                        {
+                            messageDispatcher.DispatchMessage(message);
+                        }
+                    }
+                }
             }
         }
 
-        private void OnGamerJoined(object sender, GamerJoinedEventArgs e)
+        private static void OnGamerJoined(object sender, GamerJoinedEventArgs e)
         {
-            Console.WriteLine(e.Gamer.Gamertag + " joined");
+            Console.WriteLine(e.Gamer.Gamertag + " joined my session");
         }
     }
 }

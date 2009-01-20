@@ -2,11 +2,11 @@
 
 namespace T4NET.Network.Messages.Lobby
 {
-    public class ChatContentMessage:Message
+    public class ChatContentMessage : NetworkMessage
     {
         public string Content { get; set; }
 
-        public override ushort MessageId
+        public override Protocol MessageId
         {
             get { return Protocol.CHAT_CONTENT; }
         }

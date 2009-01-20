@@ -1,22 +1,19 @@
-using T4NET.Screens;
+using System;
 
 namespace T4NET.Menus
 {
     public class MenuEntry
     {
-        private string m_title;
-        private Screen m_nextScreen;
+        public event EventHandler EntryActivated;
 
-        public string Title
-        {
-            get { return m_title; }
-            set { m_title = value; }
-        }
+        public string Title { get; set; }
 
-        public Screen NextScreen
+        internal void Activated()
         {
-            get { return m_nextScreen; }
-            set { m_nextScreen = value; }
+            if (EntryActivated != null)
+            {
+                EntryActivated(this, null);
+            }
         }
     }
 }

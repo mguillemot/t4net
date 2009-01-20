@@ -1,24 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace T4NET.Screens
 {
-    public abstract class Screen
+    public abstract class Screen : DrawableGameComponent
     {
-        private GraphicsDevice m_device;
-
-        protected GraphicsDevice GraphicsDevice
+        protected Screen(Game game) 
+            : base(game)
         {
-            get { return m_device; }
         }
-
-        public virtual void Initialize(GraphicsDevice device)
-        {
-            m_device = device;
-        }
-
-        public abstract void Update(GameTime time, GameServiceContainer services);
-
-        public abstract void Draw();
     }
 }

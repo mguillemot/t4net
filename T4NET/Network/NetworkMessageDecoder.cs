@@ -4,18 +4,18 @@ using T4NET.Network.Messages.Lobby;
 
 namespace T4NET.Network
 {
-    public class MessageDecoder
+    public class NetworkMessageDecoder
     {
         private readonly PacketReader m_packetReader = new PacketReader();
 
-        public Message Decode(LocalNetworkGamer gamer)
+        public NetworkMessage Decode(LocalNetworkGamer gamer)
         {
             NetworkGamer sender;
             gamer.ReceiveData(m_packetReader, out sender);
             if (m_packetReader.Length >= 2)
             {
-                ushort messageType = m_packetReader.ReadUInt16();
-                Message msg = null;
+                var messageType = (Protocol) m_packetReader.ReadUInt16();
+                NetworkMessage msg = null;
                 switch (messageType)
                 {
                     // 1-999
@@ -32,7 +32,6 @@ namespace T4NET.Network
                 }
                 if (msg != null)
                 {
-                    msg.Sender = sender;
                     if (msg.Decode(m_packetReader))
                     {
                         return msg;

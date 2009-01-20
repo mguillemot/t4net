@@ -8,7 +8,7 @@ namespace T4NET.Controls
 
         public ControlsConfig()
         {
-            foreach (Function function in Functions.All)
+            foreach (Function function in Functions.ALL)
             {
                 m_controls[function] = new FunctionConfig();
             }

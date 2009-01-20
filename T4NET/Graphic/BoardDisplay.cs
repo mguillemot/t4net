@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using T4NET.ZeGame;
 
 namespace T4NET.Graphic
 {
@@ -44,7 +45,7 @@ namespace T4NET.Graphic
             s_blockTextures[Block.RED] = content.Load<Texture2D>("RedBlock");
             s_blockTextures[Block.VIOLET] = content.Load<Texture2D>("VioletBlock");
             s_blockTextures[Block.YELLOW] = content.Load<Texture2D>("YellowBlock");
-            
+
             s_blockTextures[Block.BONUS_C] = content.Load<Texture2D>("BonusCBlock");
             s_blockTextures[Block.BONUS_N] = content.Load<Texture2D>("BonusNBlock");
             s_blockTextures[Block.MALUS_A] = content.Load<Texture2D>("MalusABlock");
@@ -102,7 +103,7 @@ namespace T4NET.Graphic
 
             // Blocks
             m_spriteBatch.Begin();
-            var scaledBlockSize = (int) (BLOCK_SIZE*scale-1);
+            var scaledBlockSize = (int) (BLOCK_SIZE*scale - 1);
             for (int i = 0; i < m_board.HSize; i++)
             {
                 for (int j = 0; j < m_board.VSize; j++)
@@ -135,19 +136,19 @@ namespace T4NET.Graphic
                 {
                     int x = m_board.NextPiece.X + b.X;
                     int y = m_board.NextPiece.Y + b.Y;
-                    var drawX = (int)(origin.X + 1 + BLOCK_SIZE * (x+ m_board.HSize-2) * scale);
-                    var drawY = (int)(origin.Y + 1 + BLOCK_SIZE * (y+1) * scale);
+                    var drawX = (int) (origin.X + 1 + BLOCK_SIZE*(x + m_board.HSize - 2)*scale);
+                    var drawY = (int) (origin.Y + 1 + BLOCK_SIZE*(y + 1)*scale);
                     m_spriteBatch.Draw(s_blockTextures[m_board.NextPiece.Color],
                                        new Rectangle(drawX, drawY, scaledBlockSize, scaledBlockSize), Color.White);
                 }
             }
             int bonusX = m_board.HSize + 1;
             int bonusY = m_board.VSize - 1;
-            var bonuses = m_board.CollectedBonuses.ToArray();
+            Block[] bonuses = m_board.CollectedBonuses.ToArray();
             for (int i = bonuses.Length - 1; i >= 0; i--)
             {
-                var drawX = (int)(origin.X + 1 + BLOCK_SIZE * bonusX * scale);
-                var drawY = (int)(origin.Y + 1 + BLOCK_SIZE * bonusY * scale);
+                var drawX = (int) (origin.X + 1 + BLOCK_SIZE*bonusX*scale);
+                var drawY = (int) (origin.Y + 1 + BLOCK_SIZE*bonusY*scale);
                 m_spriteBatch.Draw(s_blockTextures[bonuses[i]],
                                    new Rectangle(drawX, drawY, scaledBlockSize, scaledBlockSize), Color.White);
                 bonusY--;

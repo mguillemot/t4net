@@ -3,27 +3,13 @@ using System.Collections.Generic;
 
 namespace T4NET.Menus
 {
-    public class MenuEntrySelectedEventArgs : EventArgs
-    {
-        private readonly Menu m_menu;
-
-        public MenuEntrySelectedEventArgs(Menu menu)
-        {
-            m_menu = menu;
-        }
-
-        public Menu Menu
-        {
-            get { return m_menu; }
-        }
-    }
-
     public class Menu
     {
         private readonly List<MenuEntry> m_entries = new List<MenuEntry>();
         private int m_selectedEntry;
+        private bool m_active;
 
-        public event EventHandler<MenuEntrySelectedEventArgs> OnEntryChange;
+        public event EventHandler MenuClosed;
 
         public List<MenuEntry> Entries
         {
@@ -35,6 +21,12 @@ namespace T4NET.Menus
             get { return m_entries[m_selectedEntry]; }
         }
 
+        public bool Active
+        {
+            get { return m_active; }
+            set { m_active = value; }
+        }
+
         public void AddEntry(MenuEntry entry)
         {
             m_entries.Add(entry);
@@ -43,18 +35,23 @@ namespace T4NET.Menus
         public void Next()
         {
             m_selectedEntry = (m_selectedEntry + 1)%m_entries.Count;
-            if (OnEntryChange != null)
-            {
-                OnEntryChange(this, new MenuEntrySelectedEventArgs(this));
-            }
         }
 
         public void Previous()
         {
             m_selectedEntry = (m_selectedEntry + m_entries.Count - 1)%m_entries.Count;
-            if (OnEntryChange != null)
+        }
+
+        public void ActivateEntry()
+        {
+            SelectedEntry.Activated();
+        }
+
+        public void CloseMenu()
+        {
+            if (MenuClosed != null)
             {
-                OnEntryChange(this, new MenuEntrySelectedEventArgs(this));
+                MenuClosed(this, null);
             }
         }
     }

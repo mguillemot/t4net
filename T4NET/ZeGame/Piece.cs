@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Net;
 
-namespace T4NET
+namespace T4NET.ZeGame
 {
     public class Piece : ICloneable
     {
@@ -12,9 +13,9 @@ namespace T4NET
         private readonly List<Point>[] m_blocks = new List<Point>[4];
         private readonly PieceType m_type;
         private readonly Block m_color;
-        private int m_currentRotation;
         private int m_x;
         private int m_y;
+        private int m_r;
 
         public enum PieceType : byte
         {
@@ -29,7 +30,7 @@ namespace T4NET
 
         public object Clone()
         {
-            return new Piece(m_type) { X = X, Y = Y, m_currentRotation = m_currentRotation };
+            return new Piece(m_type) { X = X, Y = Y, m_r = m_r };
         }
 
         public static Piece RandomPiece()
@@ -249,6 +250,12 @@ namespace T4NET
             set { m_y = value; }
         }
 
+        public int R
+        {
+            get { return m_r; }
+            set { m_r = value; }
+        }
+
         public Block Color
         {
             get { return m_color; }
@@ -261,23 +268,42 @@ namespace T4NET
 
         public List<Point> CurrentBlocks
         {
-            get { return m_blocks[m_currentRotation]; }
+            get { return m_blocks[m_r]; }
         }
 
         public void RotateL()
         {
-            m_currentRotation = (m_currentRotation + 1)%4;
+            m_r = (m_r + 1)%4;
         }
 
         public void RotateR()
         {
-            m_currentRotation = (m_currentRotation + 3)%4;
+            m_r = (m_r + 3)%4;
         }
 
         public void Shift(int dx, int dy)
         {
             m_x += dx;
             m_y += dy;
+        }
+
+        public static bool Serialize(PacketWriter writer, Piece piece)
+        {
+            writer.Write((byte)piece.Type);
+            writer.Write((sbyte)piece.X);
+            writer.Write((sbyte)piece.Y);
+            writer.Write((sbyte)piece.R);
+            return true;
+        }
+
+        public static Piece Unserialize(PacketReader reader)
+        {
+            return new Piece((PieceType)reader.ReadByte())
+                             {
+                                 X = reader.ReadSByte(),
+                                 Y = reader.ReadSByte(),
+                                 R = reader.ReadSByte()
+                             };
         }
     }
 }
