@@ -34,7 +34,7 @@ namespace T4NET.Controls
             if (config.JustPressed(Function.CHEAT_RESET_BOARD, state))
             {
                 m_board.Clear();
-                m_board.SwitchToNextPiece();
+                m_board.InitializeForLocalPlayer();
             }
 
             if (config.JustPressed(Function.GAME_BONUS_SELF, state))

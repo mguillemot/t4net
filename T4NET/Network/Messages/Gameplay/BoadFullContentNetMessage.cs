@@ -3,13 +3,13 @@ using T4NET.ZeGame;
 
 namespace T4NET.Network.Messages.Gameplay
 {
-    public class BoadFullContentMessage : NetworkMessage
+    public class BoadFullContentNetMessage : NetworkMessage
     {
         public Board Board { get; set; }
 
         public override Protocol MessageId
         {
-            get { return Protocol.BOARD_FULL_CONTENT; }
+            get { return Protocol.NET_BOARD_FULL_CONTENT; }
         }
 
         public override bool Decode(PacketReader reader)

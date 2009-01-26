@@ -4,6 +4,8 @@ namespace T4NET.Network
 {
     public abstract class NetworkMessage : Message
     {
+        public NetworkGamer Gamer { get; set; }
+
         public abstract bool Decode(PacketReader reader);
 
         public bool Encode(PacketWriter writer)

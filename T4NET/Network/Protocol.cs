@@ -4,15 +4,25 @@
     {
         // 1-999: System messages
         LOCAL_PLAYER_SIGN_IN = 1,
-        LOCAL_PLAYER_SIGN_OUT = 2,
+        LOCAL_PLAYER_SIGN_OUT,
 
         // 1000-1999: Lobby messages
         REMOTE_PLAYER_SIGN_IN = 1000,
-        REMOTE_PLAYER_SIGN_OUT = 1001,
-        CHAT_CONTENT = 1002,
+        REMOTE_PLAYER_SIGN_OUT,
+        NET_CHAT_CONTENT,
 
         // 2000-2999: Gameplay messages
-        PLAYER_INCORPORATE_PIECE = 2000,
-        BOARD_FULL_CONTENT = 2001
+        NET_PLAYER_INCORPORATE_PIECE = 2000,
+        NET_BOARD_FULL_CONTENT,
+
+        // 3000-3999: Session management messages
+        PLAYER_JOINED_SESSION = 3000,
+        PLAYER_LEFT_SESSION,
+        SESSION_CREATED,
+        SESSION_CREATE_ERROR,
+        SESSION_JOINED,
+        SESSION_JOIN_ERROR,
+        SESSION_ENDED,
+        NET_SESSION_DESCRIPTION
     }
 }

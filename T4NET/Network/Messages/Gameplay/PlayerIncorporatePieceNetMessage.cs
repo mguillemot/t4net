@@ -3,20 +3,20 @@ using T4NET.ZeGame;
 
 namespace T4NET.Network.Messages.Gameplay
 {
-    public class PlayerIncorporatePieceMessage : NetworkMessage
+    public class PlayerIncorporatePieceNetMessage : NetworkMessage
     {
-        public Piece.PieceType Type;
+        public PieceType Type;
         public sbyte X;
         public sbyte Y;
 
         public override Protocol MessageId
         {
-            get { return Protocol.PLAYER_INCORPORATE_PIECE; }
+            get { return Protocol.NET_PLAYER_INCORPORATE_PIECE; }
         }
 
         public override bool Decode(PacketReader reader)
         {
-            Type = (Piece.PieceType) reader.ReadByte();
+            Type = (PieceType) reader.ReadByte();
             X = reader.ReadSByte();
             Y = reader.ReadSByte();
             return true;

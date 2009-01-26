@@ -21,17 +21,18 @@ namespace T4NET.Network
                     // 1-999
 
                     // 1000-1999
-                    case Protocol.CHAT_CONTENT:
-                        msg = new ChatContentMessage();
+                    case Protocol.NET_CHAT_CONTENT:
+                        msg = new ChatContentNetMessage();
                         break;
 
                     // 2000-2999
-                    case Protocol.PLAYER_INCORPORATE_PIECE:
-                        msg = new PlayerIncorporatePieceMessage();
+                    case Protocol.NET_PLAYER_INCORPORATE_PIECE:
+                        msg = new PlayerIncorporatePieceNetMessage();
                         break;
                 }
                 if (msg != null)
                 {
+                    msg.Gamer = sender;
                     if (msg.Decode(m_packetReader))
                     {
                         return msg;

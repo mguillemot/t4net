@@ -29,7 +29,7 @@ namespace T4NET
             m_consoleDisplay.Initialize(GraphicsDevice);
             Console.LineWidth = m_consoleDisplay.CharacterWidth;
             var messageDispatcher = (IMessageDispatcher) Game.Services.GetService(typeof (IMessageDispatcher));
-            messageDispatcher.RegisterProcessor(Protocol.CHAT_CONTENT, this);
+            messageDispatcher.RegisterProcessor(Protocol.NET_CHAT_CONTENT, this);
         }
 
         public override void Draw(GameTime gameTime)
@@ -43,7 +43,7 @@ namespace T4NET
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            base.Update(gameTime); 
             var controlsProvider = (IControlsProvider) Game.Services.GetService(typeof (IControlsProvider));
             if (controlsProvider.CurrentConfig.JustPressed(Function.DEBUG_CONSOLE, controlsProvider.CurrentState))
             {
@@ -55,8 +55,8 @@ namespace T4NET
         {
             switch (message.MessageId)
             {
-                case Protocol.CHAT_CONTENT:
-                    var msg = (ChatContentMessage)message;
+                case Protocol.NET_CHAT_CONTENT:
+                    var msg = (ChatContentNetMessage)message;
                     Console.WriteLine("Chat> " + msg.Content);
                     return false;
             }

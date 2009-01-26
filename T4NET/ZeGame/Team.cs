@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace T4NET.ZeGame
 {
-    class Team
+    public enum Team : byte
     {
+        NONE,
+        BLUE,
+        RED,
+        YELLOW,
+        GREEN
     }
 }

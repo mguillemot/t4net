@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Input;
-using T4NET.Controls;
 
 namespace T4NET.LocalPlayers
 {
@@ -17,18 +15,6 @@ namespace T4NET.LocalPlayers
             base.Initialize();
             SignedInGamer.SignedIn += GamerSignedIn;
             SignedInGamer.SignedOut += GamerSignedOut;
-
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            var controlsProvider = (IControlsProvider) Game.Services.GetService(typeof (IControlsProvider));
-            if (((T4Net) Game).HasGamerService && !Guide.IsVisible && controlsProvider.CurrentState.PressedKeys.Contains(Keys.F12))
-            {
-                Guide.ShowSignIn(1, false);
-            }
-
         }
 
         private static void GamerSignedIn(object sender, SignedInEventArgs e)
@@ -40,7 +26,5 @@ namespace T4NET.LocalPlayers
         {
             Console.WriteLine("Local " + e.Gamer.Gamertag + " signed out");
         }
-
-
     }
 }

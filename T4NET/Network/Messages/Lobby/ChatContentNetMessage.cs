@@ -2,13 +2,13 @@
 
 namespace T4NET.Network.Messages.Lobby
 {
-    public class ChatContentMessage : NetworkMessage
+    public class ChatContentNetMessage : NetworkMessage
     {
         public string Content { get; set; }
 
         public override Protocol MessageId
         {
-            get { return Protocol.CHAT_CONTENT; }
+            get { return Protocol.NET_CHAT_CONTENT; }
         }
 
         public override bool Decode(PacketReader reader)

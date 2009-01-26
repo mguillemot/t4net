@@ -1,4 +1,6 @@
-﻿namespace T4NET.Network
+﻿using Microsoft.Xna.Framework.Net;
+
+namespace T4NET.Network
 {
     public abstract class Message
     {

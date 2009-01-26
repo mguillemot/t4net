@@ -80,17 +80,10 @@ namespace T4NET.ZeGame
 
     public class Board : ICloneable
     {
-        private static readonly List<Point> ALTERNATIVE_POSITIONS = new List<Point>
-                                                                        {
-                                                                            new Point(-1, 0),
-                                                                            new Point(1, 0),
-                                                                            new Point(-2, 0),
-                                                                            new Point(2, 0),
-                                                                            new Point(0, -1),
-                                                                            new Point(-1, -1),
-                                                                            new Point(1, -1)
-                                                                        };
-
+        public const int DEFAULT_WIDTH = 10;
+        public const int DEFAULT_HEIGHT = 20;
+        public const int NEXT_PIECES = 3;
+        
         private static readonly Random s_random = new Random();
 
         private readonly Block[][] m_board;
@@ -99,7 +92,8 @@ namespace T4NET.ZeGame
         private readonly int m_vSize;
         private Piece m_currentPiece;
         private bool m_gameOver;
-        private Piece m_nextPiece;
+        private readonly Queue<Piece> m_nextPieces = new Queue<Piece>(NEXT_PIECES);
+        private readonly PieceGenerator m_pieceGenerator = new PieceGenerator();
 
         public Board(int hSize, int vSize)
         {
@@ -114,8 +108,16 @@ namespace T4NET.ZeGame
                     m_board[i][j] = Block.EMPTY;
                 }
             }
-            m_currentPiece = Piece.RandomPiece();
-            m_nextPiece = Piece.RandomPiece();
+        }
+
+        public void InitializeForLocalPlayer()
+        {
+            m_nextPieces.Clear();
+            for (int i = 0; i < NEXT_PIECES; i++)
+            {
+                m_nextPieces.Enqueue(PieceFactory.CreateInitialPositionPiece(this, m_pieceGenerator.NextPiece()));
+            }
+            SwitchToNextPiece();
         }
 
         public bool IsGameOver
@@ -143,9 +145,9 @@ namespace T4NET.ZeGame
             get { return m_currentPiece; }
         }
 
-        public Piece NextPiece
+        public Queue<Piece> NextPieces
         {
-            get { return m_nextPiece; }
+            get { return m_nextPieces; }
         }
 
         public Stack<Block> CollectedBonuses
@@ -175,7 +177,11 @@ namespace T4NET.ZeGame
                 writer.Write((byte)bonus);
             }
             Piece.Serialize(writer, board.CurrentPiece);
-            Piece.Serialize(writer, board.NextPiece);
+            writer.Write((byte) board.NextPieces.Count);
+            foreach (var piece in board.NextPieces)
+            {
+                Piece.Serialize(writer, piece);
+            }
             return true;
         }
 
@@ -197,7 +203,11 @@ namespace T4NET.ZeGame
                 result.CollectedBonuses.Push((Block)reader.ReadByte());
             }
             result.m_currentPiece = Piece.Unserialize(reader);
-            result.m_nextPiece = Piece.Unserialize(reader);
+            int nextPiecesCount = reader.ReadByte();
+            for (int i = 0; i < nextPiecesCount; i++)
+            {
+                result.NextPieces.Enqueue(Piece.Unserialize(reader));
+            }
             return result;
         }
 
@@ -208,8 +218,11 @@ namespace T4NET.ZeGame
             var copy = new Board(m_hSize, m_vSize)
                            {
                                m_currentPiece = m_currentPiece != null ? (Piece) m_currentPiece.Clone() : null,
-                               m_nextPiece = m_nextPiece != null ? (Piece) m_nextPiece.Clone() : null
                            };
+            foreach (var piece in m_nextPieces)
+            {
+                copy.NextPieces.Enqueue((Piece) piece.Clone());
+            }
             for (int i = 0; i < m_hSize; i++)
             {
                 for (int j = 0; j < m_vSize; j++)
@@ -217,7 +230,11 @@ namespace T4NET.ZeGame
                     copy.m_board[i][j] = m_board[i][j];
                 }
             }
-            // TODO collected bonuses
+            foreach (var block in m_collectedBonuses)
+            {
+                copy.CollectedBonuses.Push(block);
+            }
+            // TODO vérifier que les bonus sont dans l'ordre
             return copy;
         }
 
@@ -292,8 +309,8 @@ namespace T4NET.ZeGame
         {
             if (!m_gameOver)
             {
-                m_currentPiece = m_nextPiece;
-                m_nextPiece = Piece.RandomPiece();
+                m_currentPiece = m_nextPieces.Count > 0 ? m_nextPieces.Dequeue() : null;
+                m_nextPieces.Enqueue(PieceFactory.CreateInitialPositionPiece(this, m_pieceGenerator.NextPiece()));
             }
         }
 
@@ -305,7 +322,7 @@ namespace T4NET.ZeGame
                 if (ValidPosition()) return;
                 int x = m_currentPiece.X;
                 int y = m_currentPiece.Y;
-                foreach (Point alt in ALTERNATIVE_POSITIONS)
+                foreach (Point alt in m_currentPiece.RightWallKicks)
                 {
                     m_currentPiece.X = x + alt.X;
                     m_currentPiece.Y = y + alt.Y;
@@ -328,7 +345,7 @@ namespace T4NET.ZeGame
                 if (ValidPosition()) return;
                 int x = m_currentPiece.X;
                 int y = m_currentPiece.Y;
-                foreach (Point alt in ALTERNATIVE_POSITIONS)
+                foreach (Point alt in m_currentPiece.LeftWallKicks)
                 {
                     m_currentPiece.X = x + alt.X;
                     m_currentPiece.Y = y + alt.Y;

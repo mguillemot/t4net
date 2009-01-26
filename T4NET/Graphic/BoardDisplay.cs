@@ -130,17 +130,19 @@ namespace T4NET.Graphic
                                        new Rectangle(drawX, drawY, scaledBlockSize, scaledBlockSize), Color.White);
                 }
             }
-            if (m_board.NextPiece != null)
+            var nextPiecePosition = new Point((int)((m_board.HSize+1)*BLOCK_SIZE*scale), (int)(2*BLOCK_SIZE*scale));
+            foreach (var piece in m_board.NextPieces)
             {
-                foreach (Point b in m_board.NextPiece.CurrentBlocks)
+                foreach (Point b in piece.CurrentBlocks)
                 {
-                    int x = m_board.NextPiece.X + b.X;
-                    int y = m_board.NextPiece.Y + b.Y;
-                    var drawX = (int) (origin.X + 1 + BLOCK_SIZE*(x + m_board.HSize - 2)*scale);
-                    var drawY = (int) (origin.Y + 1 + BLOCK_SIZE*(y + 1)*scale);
-                    m_spriteBatch.Draw(s_blockTextures[m_board.NextPiece.Color],
+                    int x = b.X;
+                    int y = b.Y;
+                    var drawX = (int) (origin.X + nextPiecePosition.X + BLOCK_SIZE*x*scale);
+                    var drawY = (int)(origin.Y + nextPiecePosition.Y + BLOCK_SIZE *y* scale);
+                    m_spriteBatch.Draw(s_blockTextures[piece.Color],
                                        new Rectangle(drawX, drawY, scaledBlockSize, scaledBlockSize), Color.White);
                 }
+                nextPiecePosition.Y += (int)(50 * scale);
             }
             int bonusX = m_board.HSize + 1;
             int bonusY = m_board.VSize - 1;

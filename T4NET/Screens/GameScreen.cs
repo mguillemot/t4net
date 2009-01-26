@@ -38,10 +38,12 @@ namespace T4NET.Screens
             base.Initialize();
 
             m_board = new Board(10, 20);
+            m_board.InitializeForLocalPlayer();
             m_boardDisplay = new BoardDisplay(m_board);
             m_boardControl = new BoardControl(m_board);
 
             m_leftEnemyBoard = new Board(10, 20);
+            m_leftEnemyBoard.InitializeForLocalPlayer();
             m_leftEnemyBoard.SwitchToNextPiece();
             m_leftEnemyBoardDisplay = new BoardDisplay(m_leftEnemyBoard);
             m_leftAi = new AiComponent(Game, m_leftEnemyBoard);
